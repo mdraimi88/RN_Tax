@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/theme/app_theme.dart';
 import 'router.dart';
 
 class RNTaxApp extends StatelessWidget {
@@ -8,13 +9,10 @@ class RNTaxApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'RN Tax',
+      title: '<<re^!^Y>> Tax',
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
-      ),
+      theme: AppTheme.light,
     );
   }
 }
