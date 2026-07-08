@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 
+import 'router.dart';
+
 class RNTaxApp extends StatelessWidget {
   const RNTaxApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'RN Tax',
       debugShowCheckedModeBanner: false,
+      routerConfig: appRouter,
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.blue,
-      ),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'RN Tax',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        colorSchemeSeed: Colors.indigo,
       ),
     );
   }
