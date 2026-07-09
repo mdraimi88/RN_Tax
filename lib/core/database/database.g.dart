@@ -1443,6 +1443,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $TaxCategoriesTable taxCategories = $TaxCategoriesTable(this);
   late final $TaxRulesTable taxRules = $TaxRulesTable(this);
+  late final AssessmentYearDao assessmentYearDao = AssessmentYearDao(
+    this as AppDatabase,
+  );
+  late final TaxCategoryDao taxCategoryDao = TaxCategoryDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

@@ -9,9 +9,15 @@ import 'tables/assessment_years.dart';
 import 'tables/tax_categories.dart';
 import 'tables/tax_rules.dart';
 
+import 'dao/assessment_year_dao.dart';
+import 'dao/tax_category_dao.dart';
+
 part 'database.g.dart';
 
-@DriftDatabase(tables: [AssessmentYears, TaxCategories, TaxRules])
+@DriftDatabase(
+  tables: [AssessmentYears, TaxCategories, TaxRules],
+  daos: [AssessmentYearDao, TaxCategoryDao],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
