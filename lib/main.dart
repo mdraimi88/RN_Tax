@@ -6,9 +6,5 @@ import 'app/app.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(
-    const ProviderScope(
-      child: RNTaxApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: RNTaxApp()));
 }

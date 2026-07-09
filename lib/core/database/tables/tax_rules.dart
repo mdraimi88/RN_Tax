@@ -9,17 +9,13 @@ class TaxRules extends Table {
   IntColumn get assessmentYearId =>
       integer().references(AssessmentYears, #id)();
 
-  IntColumn get categoryId =>
-      integer().references(TaxCategories, #id)();
+  IntColumn get categoryId => integer().references(TaxCategories, #id)();
 
   RealColumn get maximumAmount => real()();
 
-  BoolColumn get isActive =>
-      boolean().withDefault(const Constant(true))();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
 
-  DateTimeColumn get createdAt =>
-      dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
-  DateTimeColumn get updatedAt =>
-      dateTime().nullable()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
 }

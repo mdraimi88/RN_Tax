@@ -9,10 +9,7 @@ class DashboardPage extends StatelessWidget {
       body: Center(
         child: Text(
           '<<re^!^y>> Tax Dashboard',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
       ),
     );

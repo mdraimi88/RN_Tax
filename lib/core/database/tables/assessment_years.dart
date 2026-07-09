@@ -5,15 +5,11 @@ class AssessmentYears extends Table {
 
   IntColumn get year => integer().unique()();
 
-  BoolColumn get isActive =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get isActive => boolean().withDefault(const Constant(false))();
 
-  BoolColumn get isLocked =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get isLocked => boolean().withDefault(const Constant(false))();
 
-  DateTimeColumn get createdAt =>
-      dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
-  DateTimeColumn get updatedAt =>
-      dateTime().nullable()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
 }

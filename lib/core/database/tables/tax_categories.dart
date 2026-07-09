@@ -13,12 +13,9 @@ class TaxCategories extends Table {
 
   TextColumn get descriptionEn => text().nullable()();
 
-  BoolColumn get isActive =>
-      boolean().withDefault(const Constant(true))();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
 
-  DateTimeColumn get createdAt =>
-      dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
-  DateTimeColumn get updatedAt =>
-      dateTime().nullable()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
 }

@@ -11,13 +11,7 @@ import 'tables/tax_rules.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(
-  tables: [
-    AssessmentYears,
-    TaxCategories,
-    TaxRules,
-  ],
-)
+@DriftDatabase(tables: [AssessmentYears, TaxCategories, TaxRules])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -29,9 +23,7 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final directory = await getApplicationDocumentsDirectory();
 
-    final file = File(
-      p.join(directory.path, 'remy_tax.db'),
-    );
+    final file = File(p.join(directory.path, 'remy_tax.db'));
 
     return NativeDatabase.createInBackground(file);
   });
