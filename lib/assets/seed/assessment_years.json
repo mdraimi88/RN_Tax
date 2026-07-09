@@ -1,0 +1,12 @@
+[
+  {
+    "year": 2025,
+    "isActive": false,
+    "isLocked": true
+  },
+  {
+    "year": 2026,
+    "isActive": true,
+    "isLocked": false
+  }
+]
