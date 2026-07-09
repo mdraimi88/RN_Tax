@@ -8,12 +8,12 @@ class DashboardHeader extends StatelessWidget {
     return Column(
       children: [
         Text(
-          '<<re^!^Y>> Tax System',
+          '<<re^!^y>>',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         SizedBox(height: 6),
         Text(
-          'Malaysia Personal Tax Assistant',
+          'Personal Tax System',
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],

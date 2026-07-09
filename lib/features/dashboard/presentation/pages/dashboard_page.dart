@@ -13,8 +13,8 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('<<re^!^Y>> Tax System'),
-        centerTitle: true,
+        //title: const Text('<<re^!^Y>> Tax System'),
+        //centerTitle: true,
       ),
       body: const SingleChildScrollView(
         padding: EdgeInsets.all(16),
