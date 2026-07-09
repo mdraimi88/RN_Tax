@@ -13,6 +13,7 @@ import 'dao/assessment_year_dao.dart';
 import 'dao/tax_category_dao.dart';
 import 'dao/tax_rule_dao.dart';
 import 'tables/tax_reliefs.dart';
+import '../config/app_constants.dart';
 
 part 'database.g.dart';
 
@@ -24,14 +25,14 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => AppConstants.databaseVersion;
 }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final directory = await getApplicationDocumentsDirectory();
 
-    final file = File(p.join(directory.path, 'remy_tax.db'));
+    final file = File(p.join(directory.path, AppConstants.databaseName));
 
     return NativeDatabase.createInBackground(file);
   });

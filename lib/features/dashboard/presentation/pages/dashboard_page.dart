@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../widgets/dashboard_header.dart';
 import '../widgets/assessment_year_card.dart';
+import '../widgets/dashboard_header.dart';
+import '../widgets/database_status_card.dart';
 import '../widgets/receipt_summary_card.dart';
 import '../widgets/tax_relief_card.dart';
-import '../widgets/database_status_card.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        //title: const Text('<<re^!^Y>> Tax System'),
-        //centerTitle: true,
-      ),
+      appBar: AppBar(centerTitle: true, title: const Text('<<re^!^y>>')),
       body: const SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(

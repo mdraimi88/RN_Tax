@@ -7,10 +7,7 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          '<<re^!^y>>',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        Text('<<re^!^y>>', style: Theme.of(context).textTheme.headlineMedium),
         SizedBox(height: 6),
         Text(
           'Personal Tax System',
