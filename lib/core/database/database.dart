@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'tables/assessment_years.dart';
 import 'tables/tax_categories.dart';
+import 'tables/tax_rules.dart';
 
 part 'database.g.dart';
 
@@ -14,6 +15,7 @@ part 'database.g.dart';
   tables: [
     AssessmentYears,
     TaxCategories,
+    TaxRules,
   ],
 )
 class AppDatabase extends _$AppDatabase {
