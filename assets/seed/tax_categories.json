@@ -1,0 +1,27 @@
+[
+  {
+    "code": "SELF",
+    "nameMs": "Individu",
+    "nameEn": "Individual"
+  },
+  {
+    "code": "SPOUSE",
+    "nameMs": "Pasangan",
+    "nameEn": "Spouse"
+  },
+  {
+    "code": "CHILD",
+    "nameMs": "Anak",
+    "nameEn": "Child"
+  },
+  {
+    "code": "KWSP",
+    "nameMs": "KWSP",
+    "nameEn": "EPF"
+  },
+  {
+    "code": "LIFESTYLE",
+    "nameMs": "Gaya Hidup",
+    "nameEn": "Lifestyle"
+  }
+]
