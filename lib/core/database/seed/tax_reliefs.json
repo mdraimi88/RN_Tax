@@ -1,0 +1,18 @@
+[
+  {
+    "code": "SELF",
+    "category": "INDIVIDU",
+    "titleBm": "Individu dan Saudara Tanggungan",
+    "titleEn": "Individual and Dependent Relatives",
+    "maxAmount": 9000,
+    "assessmentYear": 2026
+  },
+  {
+    "code": "EPF",
+    "category": "PERSARAAN",
+    "titleBm": "KWSP",
+    "titleEn": "EPF",
+    "maxAmount": 4000,
+    "assessmentYear": 2026
+  }
+]

@@ -12,11 +12,12 @@ import 'tables/tax_rules.dart';
 import 'dao/assessment_year_dao.dart';
 import 'dao/tax_category_dao.dart';
 import 'dao/tax_rule_dao.dart';
+import 'tables/tax_reliefs.dart';
 
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [AssessmentYears, TaxCategories, TaxRules],
+  tables: [AssessmentYears, TaxCategories, TaxRules, TaxReliefs],
   daos: [AssessmentYearDao, TaxCategoryDao, TaxRuleDao],
 )
 class AppDatabase extends _$AppDatabase {

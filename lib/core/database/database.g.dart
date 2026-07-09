@@ -1435,6 +1435,608 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
   }
 }
 
+class $TaxReliefsTable extends TaxReliefs
+    with TableInfo<$TaxReliefsTable, TaxRelief> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaxReliefsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleBmMeta = const VerificationMeta(
+    'titleBm',
+  );
+  @override
+  late final GeneratedColumn<String> titleBm = GeneratedColumn<String>(
+    'title_bm',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleEnMeta = const VerificationMeta(
+    'titleEn',
+  );
+  @override
+  late final GeneratedColumn<String> titleEn = GeneratedColumn<String>(
+    'title_en',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _maxAmountMeta = const VerificationMeta(
+    'maxAmount',
+  );
+  @override
+  late final GeneratedColumn<double> maxAmount = GeneratedColumn<double>(
+    'max_amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _assessmentYearMeta = const VerificationMeta(
+    'assessmentYear',
+  );
+  @override
+  late final GeneratedColumn<int> assessmentYear = GeneratedColumn<int>(
+    'assessment_year',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    code,
+    category,
+    titleBm,
+    titleEn,
+    maxAmount,
+    isActive,
+    assessmentYear,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'tax_reliefs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaxRelief> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('title_bm')) {
+      context.handle(
+        _titleBmMeta,
+        titleBm.isAcceptableOrUnknown(data['title_bm']!, _titleBmMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleBmMeta);
+    }
+    if (data.containsKey('title_en')) {
+      context.handle(
+        _titleEnMeta,
+        titleEn.isAcceptableOrUnknown(data['title_en']!, _titleEnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleEnMeta);
+    }
+    if (data.containsKey('max_amount')) {
+      context.handle(
+        _maxAmountMeta,
+        maxAmount.isAcceptableOrUnknown(data['max_amount']!, _maxAmountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_maxAmountMeta);
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('assessment_year')) {
+      context.handle(
+        _assessmentYearMeta,
+        assessmentYear.isAcceptableOrUnknown(
+          data['assessment_year']!,
+          _assessmentYearMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_assessmentYearMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaxRelief map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaxRelief(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      titleBm: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_bm'],
+      )!,
+      titleEn: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_en'],
+      )!,
+      maxAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}max_amount'],
+      )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      assessmentYear: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}assessment_year'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+    );
+  }
+
+  @override
+  $TaxReliefsTable createAlias(String alias) {
+    return $TaxReliefsTable(attachedDatabase, alias);
+  }
+}
+
+class TaxRelief extends DataClass implements Insertable<TaxRelief> {
+  final int id;
+  final String code;
+  final String category;
+  final String titleBm;
+  final String titleEn;
+  final double maxAmount;
+  final bool isActive;
+  final int assessmentYear;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  const TaxRelief({
+    required this.id,
+    required this.code,
+    required this.category,
+    required this.titleBm,
+    required this.titleEn,
+    required this.maxAmount,
+    required this.isActive,
+    required this.assessmentYear,
+    required this.createdAt,
+    this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['code'] = Variable<String>(code);
+    map['category'] = Variable<String>(category);
+    map['title_bm'] = Variable<String>(titleBm);
+    map['title_en'] = Variable<String>(titleEn);
+    map['max_amount'] = Variable<double>(maxAmount);
+    map['is_active'] = Variable<bool>(isActive);
+    map['assessment_year'] = Variable<int>(assessmentYear);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  TaxReliefsCompanion toCompanion(bool nullToAbsent) {
+    return TaxReliefsCompanion(
+      id: Value(id),
+      code: Value(code),
+      category: Value(category),
+      titleBm: Value(titleBm),
+      titleEn: Value(titleEn),
+      maxAmount: Value(maxAmount),
+      isActive: Value(isActive),
+      assessmentYear: Value(assessmentYear),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory TaxRelief.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaxRelief(
+      id: serializer.fromJson<int>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      category: serializer.fromJson<String>(json['category']),
+      titleBm: serializer.fromJson<String>(json['titleBm']),
+      titleEn: serializer.fromJson<String>(json['titleEn']),
+      maxAmount: serializer.fromJson<double>(json['maxAmount']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      assessmentYear: serializer.fromJson<int>(json['assessmentYear']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'code': serializer.toJson<String>(code),
+      'category': serializer.toJson<String>(category),
+      'titleBm': serializer.toJson<String>(titleBm),
+      'titleEn': serializer.toJson<String>(titleEn),
+      'maxAmount': serializer.toJson<double>(maxAmount),
+      'isActive': serializer.toJson<bool>(isActive),
+      'assessmentYear': serializer.toJson<int>(assessmentYear),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  TaxRelief copyWith({
+    int? id,
+    String? code,
+    String? category,
+    String? titleBm,
+    String? titleEn,
+    double? maxAmount,
+    bool? isActive,
+    int? assessmentYear,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+  }) => TaxRelief(
+    id: id ?? this.id,
+    code: code ?? this.code,
+    category: category ?? this.category,
+    titleBm: titleBm ?? this.titleBm,
+    titleEn: titleEn ?? this.titleEn,
+    maxAmount: maxAmount ?? this.maxAmount,
+    isActive: isActive ?? this.isActive,
+    assessmentYear: assessmentYear ?? this.assessmentYear,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+  );
+  TaxRelief copyWithCompanion(TaxReliefsCompanion data) {
+    return TaxRelief(
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      category: data.category.present ? data.category.value : this.category,
+      titleBm: data.titleBm.present ? data.titleBm.value : this.titleBm,
+      titleEn: data.titleEn.present ? data.titleEn.value : this.titleEn,
+      maxAmount: data.maxAmount.present ? data.maxAmount.value : this.maxAmount,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      assessmentYear: data.assessmentYear.present
+          ? data.assessmentYear.value
+          : this.assessmentYear,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaxRelief(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('category: $category, ')
+          ..write('titleBm: $titleBm, ')
+          ..write('titleEn: $titleEn, ')
+          ..write('maxAmount: $maxAmount, ')
+          ..write('isActive: $isActive, ')
+          ..write('assessmentYear: $assessmentYear, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    code,
+    category,
+    titleBm,
+    titleEn,
+    maxAmount,
+    isActive,
+    assessmentYear,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaxRelief &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.category == this.category &&
+          other.titleBm == this.titleBm &&
+          other.titleEn == this.titleEn &&
+          other.maxAmount == this.maxAmount &&
+          other.isActive == this.isActive &&
+          other.assessmentYear == this.assessmentYear &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class TaxReliefsCompanion extends UpdateCompanion<TaxRelief> {
+  final Value<int> id;
+  final Value<String> code;
+  final Value<String> category;
+  final Value<String> titleBm;
+  final Value<String> titleEn;
+  final Value<double> maxAmount;
+  final Value<bool> isActive;
+  final Value<int> assessmentYear;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  const TaxReliefsCompanion({
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.category = const Value.absent(),
+    this.titleBm = const Value.absent(),
+    this.titleEn = const Value.absent(),
+    this.maxAmount = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.assessmentYear = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  TaxReliefsCompanion.insert({
+    this.id = const Value.absent(),
+    required String code,
+    required String category,
+    required String titleBm,
+    required String titleEn,
+    required double maxAmount,
+    this.isActive = const Value.absent(),
+    required int assessmentYear,
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  }) : code = Value(code),
+       category = Value(category),
+       titleBm = Value(titleBm),
+       titleEn = Value(titleEn),
+       maxAmount = Value(maxAmount),
+       assessmentYear = Value(assessmentYear);
+  static Insertable<TaxRelief> custom({
+    Expression<int>? id,
+    Expression<String>? code,
+    Expression<String>? category,
+    Expression<String>? titleBm,
+    Expression<String>? titleEn,
+    Expression<double>? maxAmount,
+    Expression<bool>? isActive,
+    Expression<int>? assessmentYear,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (category != null) 'category': category,
+      if (titleBm != null) 'title_bm': titleBm,
+      if (titleEn != null) 'title_en': titleEn,
+      if (maxAmount != null) 'max_amount': maxAmount,
+      if (isActive != null) 'is_active': isActive,
+      if (assessmentYear != null) 'assessment_year': assessmentYear,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  TaxReliefsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? code,
+    Value<String>? category,
+    Value<String>? titleBm,
+    Value<String>? titleEn,
+    Value<double>? maxAmount,
+    Value<bool>? isActive,
+    Value<int>? assessmentYear,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+  }) {
+    return TaxReliefsCompanion(
+      id: id ?? this.id,
+      code: code ?? this.code,
+      category: category ?? this.category,
+      titleBm: titleBm ?? this.titleBm,
+      titleEn: titleEn ?? this.titleEn,
+      maxAmount: maxAmount ?? this.maxAmount,
+      isActive: isActive ?? this.isActive,
+      assessmentYear: assessmentYear ?? this.assessmentYear,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (titleBm.present) {
+      map['title_bm'] = Variable<String>(titleBm.value);
+    }
+    if (titleEn.present) {
+      map['title_en'] = Variable<String>(titleEn.value);
+    }
+    if (maxAmount.present) {
+      map['max_amount'] = Variable<double>(maxAmount.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (assessmentYear.present) {
+      map['assessment_year'] = Variable<int>(assessmentYear.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaxReliefsCompanion(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('category: $category, ')
+          ..write('titleBm: $titleBm, ')
+          ..write('titleEn: $titleEn, ')
+          ..write('maxAmount: $maxAmount, ')
+          ..write('isActive: $isActive, ')
+          ..write('assessmentYear: $assessmentYear, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1443,6 +2045,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $TaxCategoriesTable taxCategories = $TaxCategoriesTable(this);
   late final $TaxRulesTable taxRules = $TaxRulesTable(this);
+  late final $TaxReliefsTable taxReliefs = $TaxReliefsTable(this);
   late final AssessmentYearDao assessmentYearDao = AssessmentYearDao(
     this as AppDatabase,
   );
@@ -1458,6 +2061,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     assessmentYears,
     taxCategories,
     taxRules,
+    taxReliefs,
   ];
 }
 
@@ -2605,6 +3209,294 @@ typedef $$TaxRulesTableProcessedTableManager =
       TaxRule,
       PrefetchHooks Function({bool assessmentYearId, bool categoryId})
     >;
+typedef $$TaxReliefsTableCreateCompanionBuilder =
+    TaxReliefsCompanion Function({
+      Value<int> id,
+      required String code,
+      required String category,
+      required String titleBm,
+      required String titleEn,
+      required double maxAmount,
+      Value<bool> isActive,
+      required int assessmentYear,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+    });
+typedef $$TaxReliefsTableUpdateCompanionBuilder =
+    TaxReliefsCompanion Function({
+      Value<int> id,
+      Value<String> code,
+      Value<String> category,
+      Value<String> titleBm,
+      Value<String> titleEn,
+      Value<double> maxAmount,
+      Value<bool> isActive,
+      Value<int> assessmentYear,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+    });
+
+class $$TaxReliefsTableFilterComposer
+    extends Composer<_$AppDatabase, $TaxReliefsTable> {
+  $$TaxReliefsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleBm => $composableBuilder(
+    column: $table.titleBm,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleEn => $composableBuilder(
+    column: $table.titleEn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get maxAmount => $composableBuilder(
+    column: $table.maxAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get assessmentYear => $composableBuilder(
+    column: $table.assessmentYear,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$TaxReliefsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaxReliefsTable> {
+  $$TaxReliefsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleBm => $composableBuilder(
+    column: $table.titleBm,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleEn => $composableBuilder(
+    column: $table.titleEn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get maxAmount => $composableBuilder(
+    column: $table.maxAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get assessmentYear => $composableBuilder(
+    column: $table.assessmentYear,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$TaxReliefsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaxReliefsTable> {
+  $$TaxReliefsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get titleBm =>
+      $composableBuilder(column: $table.titleBm, builder: (column) => column);
+
+  GeneratedColumn<String> get titleEn =>
+      $composableBuilder(column: $table.titleEn, builder: (column) => column);
+
+  GeneratedColumn<double> get maxAmount =>
+      $composableBuilder(column: $table.maxAmount, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<int> get assessmentYear => $composableBuilder(
+    column: $table.assessmentYear,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$TaxReliefsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaxReliefsTable,
+          TaxRelief,
+          $$TaxReliefsTableFilterComposer,
+          $$TaxReliefsTableOrderingComposer,
+          $$TaxReliefsTableAnnotationComposer,
+          $$TaxReliefsTableCreateCompanionBuilder,
+          $$TaxReliefsTableUpdateCompanionBuilder,
+          (
+            TaxRelief,
+            BaseReferences<_$AppDatabase, $TaxReliefsTable, TaxRelief>,
+          ),
+          TaxRelief,
+          PrefetchHooks Function()
+        > {
+  $$TaxReliefsTableTableManager(_$AppDatabase db, $TaxReliefsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaxReliefsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaxReliefsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TaxReliefsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> titleBm = const Value.absent(),
+                Value<String> titleEn = const Value.absent(),
+                Value<double> maxAmount = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<int> assessmentYear = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+              }) => TaxReliefsCompanion(
+                id: id,
+                code: code,
+                category: category,
+                titleBm: titleBm,
+                titleEn: titleEn,
+                maxAmount: maxAmount,
+                isActive: isActive,
+                assessmentYear: assessmentYear,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String code,
+                required String category,
+                required String titleBm,
+                required String titleEn,
+                required double maxAmount,
+                Value<bool> isActive = const Value.absent(),
+                required int assessmentYear,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+              }) => TaxReliefsCompanion.insert(
+                id: id,
+                code: code,
+                category: category,
+                titleBm: titleBm,
+                titleEn: titleEn,
+                maxAmount: maxAmount,
+                isActive: isActive,
+                assessmentYear: assessmentYear,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$TaxReliefsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaxReliefsTable,
+      TaxRelief,
+      $$TaxReliefsTableFilterComposer,
+      $$TaxReliefsTableOrderingComposer,
+      $$TaxReliefsTableAnnotationComposer,
+      $$TaxReliefsTableCreateCompanionBuilder,
+      $$TaxReliefsTableUpdateCompanionBuilder,
+      (TaxRelief, BaseReferences<_$AppDatabase, $TaxReliefsTable, TaxRelief>),
+      TaxRelief,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2615,4 +3507,6 @@ class $AppDatabaseManager {
       $$TaxCategoriesTableTableManager(_db, _db.taxCategories);
   $$TaxRulesTableTableManager get taxRules =>
       $$TaxRulesTableTableManager(_db, _db.taxRules);
+  $$TaxReliefsTableTableManager get taxReliefs =>
+      $$TaxReliefsTableTableManager(_db, _db.taxReliefs);
 }
