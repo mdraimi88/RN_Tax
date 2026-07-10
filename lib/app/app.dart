@@ -9,7 +9,7 @@ class RNTaxApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: '<<re^!^Y>> Tax',
+      title: '<<re^!^y>> Tax',
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
       theme: AppTheme.light,

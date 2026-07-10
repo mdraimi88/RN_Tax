@@ -13,28 +13,31 @@ class DashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('<<re^!^y>>')),
       body: const SingleChildScrollView(
-        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             DashboardHeader(),
 
-            SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  AssessmentYearCard(),
 
-            AssessmentYearCard(),
+                  SizedBox(height: 16),
 
-            SizedBox(height: 16),
+                  ReceiptSummaryCard(),
 
-            ReceiptSummaryCard(),
+                  SizedBox(height: 16),
 
-            SizedBox(height: 16),
+                  TaxReliefCard(),
 
-            TaxReliefCard(),
+                  SizedBox(height: 16),
 
-            SizedBox(height: 16),
-
-            DatabaseStatusCard(),
+                  DatabaseStatusCard(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
