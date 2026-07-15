@@ -13,7 +13,7 @@ class AppConstants {
   // ==========================
 
   static const String databaseName = 'remy_tax.db';
-  static const int databaseVersion = 1;
+  static const int databaseVersion = 2;
 
   // ==========================
   // Assessment Year
