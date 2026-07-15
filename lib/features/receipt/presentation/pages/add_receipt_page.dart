@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/models/create_receipt_request.dart';
+import '../../providers/image_picker_provider.dart';
 import '../../providers/receipt_notifier.dart';
 
 import '../widgets/amount_text_field.dart';
@@ -30,6 +33,8 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
 
   DateTime _receiptDate = DateTime.now();
 
+  String? _imagePath;
+
   bool _isSaving = false;
 
   @override
@@ -56,6 +61,30 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
         _receiptDate = picked;
       });
     }
+  }
+
+  Future<void> _pickImageFromCamera() async {
+    final picker = ref.read(imagePickerProvider);
+
+    final image = await picker.pickFromCamera();
+
+    if (image == null) return;
+
+    setState(() {
+      _imagePath = image.path;
+    });
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    final picker = ref.read(imagePickerProvider);
+
+    final image = await picker.pickFromGallery();
+
+    if (image == null) return;
+
+    setState(() {
+      _imagePath = image.path;
+    });
   }
 
   Future<void> _saveReceipt() async {
@@ -91,6 +120,7 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
               merchant: _merchantController.text.trim(),
               receiptDate: _receiptDate,
               amount: double.parse(_amountController.text),
+              imagePath: _imagePath ?? '',
               notes: _notesController.text.trim().isEmpty
                   ? null
                   : _notesController.text.trim(),
@@ -168,11 +198,41 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
 
               NotesTextField(controller: _notesController),
 
+              const SizedBox(height: 24),
+
+              OutlinedButton.icon(
+                onPressed: _pickImageFromCamera,
+                icon: const Icon(Icons.camera_alt),
+                label: const Text('Ambil Gambar'),
+              ),
+
+              const SizedBox(height: 12),
+
+              OutlinedButton.icon(
+                onPressed: _pickImageFromGallery,
+                icon: const Icon(Icons.photo_library),
+                label: const Text('Pilih Dari Galeri'),
+              ),
+
+              if (_imagePath != null) ...[
+                const SizedBox(height: 20),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.file(
+                    File(_imagePath!),
+                    height: 220,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+
               const SizedBox(height: 30),
 
               SizedBox(
                 width: double.infinity,
-                height: 50,
+                height: 52,
                 child: ElevatedButton.icon(
                   onPressed: _isSaving ? null : _saveReceipt,
                   icon: _isSaving
