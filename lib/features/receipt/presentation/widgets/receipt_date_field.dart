@@ -21,9 +21,7 @@ class ReceiptDateField extends StatelessWidget {
           prefixIcon: Icon(Icons.calendar_today),
           border: OutlineInputBorder(),
         ),
-        child: Text(
-          DateFormat('dd/MM/yyyy').format(selectedDate),
-        ),
+        child: Text(DateFormat('dd/MM/yyyy').format(selectedDate)),
       ),
     );
   }

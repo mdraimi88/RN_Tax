@@ -65,19 +65,15 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
 
     if (_selectedAssessmentYear == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sila pilih Tahun Taksiran'),
-        ),
+        const SnackBar(content: Text('Sila pilih Tahun Taksiran')),
       );
       return;
     }
 
     if (_selectedCategoryId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sila pilih Kategori'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Sila pilih Kategori')));
       return;
     }
 
@@ -86,36 +82,34 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
     });
 
     try {
-      await ref.read(receiptNotifierProvider.notifier).addReceipt(
-        CreateReceiptRequest(
-          assessmentYearId: _selectedAssessmentYear!,
-          categoryId: _selectedCategoryId!,
-          merchant: _merchantController.text.trim(),
-          receiptDate: _receiptDate,
-          amount: double.parse(_amountController.text),
-          notes: _notesController.text.trim().isEmpty
-              ? null
-              : _notesController.text.trim(),
-        ),
-      );
+      await ref
+          .read(receiptNotifierProvider.notifier)
+          .addReceipt(
+            CreateReceiptRequest(
+              assessmentYearId: _selectedAssessmentYear!,
+              categoryId: _selectedCategoryId!,
+              merchant: _merchantController.text.trim(),
+              receiptDate: _receiptDate,
+              amount: double.parse(_amountController.text),
+              notes: _notesController.text.trim().isEmpty
+                  ? null
+                  : _notesController.text.trim(),
+            ),
+          );
 
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Resit berjaya disimpan'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Resit berjaya disimpan')));
 
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Ralat: $e'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Ralat: $e')));
     } finally {
       if (mounted) {
         setState(() {
@@ -128,18 +122,14 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tambah Resit'),
-      ),
+      appBar: AppBar(title: const Text('Tambah Resit')),
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              MerchantTextField(
-                controller: _merchantController,
-              ),
+              MerchantTextField(controller: _merchantController),
 
               const SizedBox(height: 16),
 
@@ -172,15 +162,11 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
 
               const SizedBox(height: 16),
 
-              AmountTextField(
-                controller: _amountController,
-              ),
+              AmountTextField(controller: _amountController),
 
               const SizedBox(height: 16),
 
-              NotesTextField(
-                controller: _notesController,
-              ),
+              NotesTextField(controller: _notesController),
 
               const SizedBox(height: 30),
 
@@ -191,16 +177,12 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
                   onPressed: _isSaving ? null : _saveReceipt,
                   icon: _isSaving
                       ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  )
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : const Icon(Icons.save),
-                  label: Text(
-                    _isSaving ? 'MENYIMPAN...' : 'SIMPAN RESIT',
-                  ),
+                  label: Text(_isSaving ? 'MENYIMPAN...' : 'SIMPAN RESIT'),
                 ),
               ),
             ],
