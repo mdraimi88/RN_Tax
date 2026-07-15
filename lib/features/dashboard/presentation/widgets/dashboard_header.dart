@@ -9,9 +9,7 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-      ),
+      decoration: BoxDecoration(color: Theme.of(context).primaryColor),
       child: SafeArea(
         child: Column(
           children: [

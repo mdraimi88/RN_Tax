@@ -2037,6 +2037,617 @@ class TaxReliefsCompanion extends UpdateCompanion<TaxRelief> {
   }
 }
 
+class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReceiptsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _assessmentYearIdMeta = const VerificationMeta(
+    'assessmentYearId',
+  );
+  @override
+  late final GeneratedColumn<int> assessmentYearId = GeneratedColumn<int>(
+    'assessment_year_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES assessment_years (id)',
+    ),
+  );
+  static const VerificationMeta _categoryIdMeta = const VerificationMeta(
+    'categoryId',
+  );
+  @override
+  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
+    'category_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES tax_categories (id)',
+    ),
+  );
+  static const VerificationMeta _merchantMeta = const VerificationMeta(
+    'merchant',
+  );
+  @override
+  late final GeneratedColumn<String> merchant = GeneratedColumn<String>(
+    'merchant',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _receiptDateMeta = const VerificationMeta(
+    'receiptDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> receiptDate = GeneratedColumn<DateTime>(
+    'receipt_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<double> amount = GeneratedColumn<double>(
+    'amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _imagePathMeta = const VerificationMeta(
+    'imagePath',
+  );
+  @override
+  late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
+    'image_path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    assessmentYearId,
+    categoryId,
+    merchant,
+    receiptDate,
+    amount,
+    imagePath,
+    notes,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'receipts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Receipt> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('assessment_year_id')) {
+      context.handle(
+        _assessmentYearIdMeta,
+        assessmentYearId.isAcceptableOrUnknown(
+          data['assessment_year_id']!,
+          _assessmentYearIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_assessmentYearIdMeta);
+    }
+    if (data.containsKey('category_id')) {
+      context.handle(
+        _categoryIdMeta,
+        categoryId.isAcceptableOrUnknown(data['category_id']!, _categoryIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryIdMeta);
+    }
+    if (data.containsKey('merchant')) {
+      context.handle(
+        _merchantMeta,
+        merchant.isAcceptableOrUnknown(data['merchant']!, _merchantMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_merchantMeta);
+    }
+    if (data.containsKey('receipt_date')) {
+      context.handle(
+        _receiptDateMeta,
+        receiptDate.isAcceptableOrUnknown(
+          data['receipt_date']!,
+          _receiptDateMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_receiptDateMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(
+        _amountMeta,
+        amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    if (data.containsKey('image_path')) {
+      context.handle(
+        _imagePathMeta,
+        imagePath.isAcceptableOrUnknown(data['image_path']!, _imagePathMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_imagePathMeta);
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Receipt map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Receipt(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      assessmentYearId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}assessment_year_id'],
+      )!,
+      categoryId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}category_id'],
+      )!,
+      merchant: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}merchant'],
+      )!,
+      receiptDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}receipt_date'],
+      )!,
+      amount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}amount'],
+      )!,
+      imagePath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_path'],
+      )!,
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+    );
+  }
+
+  @override
+  $ReceiptsTable createAlias(String alias) {
+    return $ReceiptsTable(attachedDatabase, alias);
+  }
+}
+
+class Receipt extends DataClass implements Insertable<Receipt> {
+  final int id;
+  final int assessmentYearId;
+  final int categoryId;
+  final String merchant;
+  final DateTime receiptDate;
+  final double amount;
+  final String imagePath;
+  final String? notes;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  const Receipt({
+    required this.id,
+    required this.assessmentYearId,
+    required this.categoryId,
+    required this.merchant,
+    required this.receiptDate,
+    required this.amount,
+    required this.imagePath,
+    this.notes,
+    required this.createdAt,
+    this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['assessment_year_id'] = Variable<int>(assessmentYearId);
+    map['category_id'] = Variable<int>(categoryId);
+    map['merchant'] = Variable<String>(merchant);
+    map['receipt_date'] = Variable<DateTime>(receiptDate);
+    map['amount'] = Variable<double>(amount);
+    map['image_path'] = Variable<String>(imagePath);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  ReceiptsCompanion toCompanion(bool nullToAbsent) {
+    return ReceiptsCompanion(
+      id: Value(id),
+      assessmentYearId: Value(assessmentYearId),
+      categoryId: Value(categoryId),
+      merchant: Value(merchant),
+      receiptDate: Value(receiptDate),
+      amount: Value(amount),
+      imagePath: Value(imagePath),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory Receipt.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Receipt(
+      id: serializer.fromJson<int>(json['id']),
+      assessmentYearId: serializer.fromJson<int>(json['assessmentYearId']),
+      categoryId: serializer.fromJson<int>(json['categoryId']),
+      merchant: serializer.fromJson<String>(json['merchant']),
+      receiptDate: serializer.fromJson<DateTime>(json['receiptDate']),
+      amount: serializer.fromJson<double>(json['amount']),
+      imagePath: serializer.fromJson<String>(json['imagePath']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'assessmentYearId': serializer.toJson<int>(assessmentYearId),
+      'categoryId': serializer.toJson<int>(categoryId),
+      'merchant': serializer.toJson<String>(merchant),
+      'receiptDate': serializer.toJson<DateTime>(receiptDate),
+      'amount': serializer.toJson<double>(amount),
+      'imagePath': serializer.toJson<String>(imagePath),
+      'notes': serializer.toJson<String?>(notes),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  Receipt copyWith({
+    int? id,
+    int? assessmentYearId,
+    int? categoryId,
+    String? merchant,
+    DateTime? receiptDate,
+    double? amount,
+    String? imagePath,
+    Value<String?> notes = const Value.absent(),
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+  }) => Receipt(
+    id: id ?? this.id,
+    assessmentYearId: assessmentYearId ?? this.assessmentYearId,
+    categoryId: categoryId ?? this.categoryId,
+    merchant: merchant ?? this.merchant,
+    receiptDate: receiptDate ?? this.receiptDate,
+    amount: amount ?? this.amount,
+    imagePath: imagePath ?? this.imagePath,
+    notes: notes.present ? notes.value : this.notes,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+  );
+  Receipt copyWithCompanion(ReceiptsCompanion data) {
+    return Receipt(
+      id: data.id.present ? data.id.value : this.id,
+      assessmentYearId: data.assessmentYearId.present
+          ? data.assessmentYearId.value
+          : this.assessmentYearId,
+      categoryId: data.categoryId.present
+          ? data.categoryId.value
+          : this.categoryId,
+      merchant: data.merchant.present ? data.merchant.value : this.merchant,
+      receiptDate: data.receiptDate.present
+          ? data.receiptDate.value
+          : this.receiptDate,
+      amount: data.amount.present ? data.amount.value : this.amount,
+      imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Receipt(')
+          ..write('id: $id, ')
+          ..write('assessmentYearId: $assessmentYearId, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('merchant: $merchant, ')
+          ..write('receiptDate: $receiptDate, ')
+          ..write('amount: $amount, ')
+          ..write('imagePath: $imagePath, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    assessmentYearId,
+    categoryId,
+    merchant,
+    receiptDate,
+    amount,
+    imagePath,
+    notes,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Receipt &&
+          other.id == this.id &&
+          other.assessmentYearId == this.assessmentYearId &&
+          other.categoryId == this.categoryId &&
+          other.merchant == this.merchant &&
+          other.receiptDate == this.receiptDate &&
+          other.amount == this.amount &&
+          other.imagePath == this.imagePath &&
+          other.notes == this.notes &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class ReceiptsCompanion extends UpdateCompanion<Receipt> {
+  final Value<int> id;
+  final Value<int> assessmentYearId;
+  final Value<int> categoryId;
+  final Value<String> merchant;
+  final Value<DateTime> receiptDate;
+  final Value<double> amount;
+  final Value<String> imagePath;
+  final Value<String?> notes;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  const ReceiptsCompanion({
+    this.id = const Value.absent(),
+    this.assessmentYearId = const Value.absent(),
+    this.categoryId = const Value.absent(),
+    this.merchant = const Value.absent(),
+    this.receiptDate = const Value.absent(),
+    this.amount = const Value.absent(),
+    this.imagePath = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  ReceiptsCompanion.insert({
+    this.id = const Value.absent(),
+    required int assessmentYearId,
+    required int categoryId,
+    required String merchant,
+    required DateTime receiptDate,
+    required double amount,
+    required String imagePath,
+    this.notes = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  }) : assessmentYearId = Value(assessmentYearId),
+       categoryId = Value(categoryId),
+       merchant = Value(merchant),
+       receiptDate = Value(receiptDate),
+       amount = Value(amount),
+       imagePath = Value(imagePath);
+  static Insertable<Receipt> custom({
+    Expression<int>? id,
+    Expression<int>? assessmentYearId,
+    Expression<int>? categoryId,
+    Expression<String>? merchant,
+    Expression<DateTime>? receiptDate,
+    Expression<double>? amount,
+    Expression<String>? imagePath,
+    Expression<String>? notes,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (assessmentYearId != null) 'assessment_year_id': assessmentYearId,
+      if (categoryId != null) 'category_id': categoryId,
+      if (merchant != null) 'merchant': merchant,
+      if (receiptDate != null) 'receipt_date': receiptDate,
+      if (amount != null) 'amount': amount,
+      if (imagePath != null) 'image_path': imagePath,
+      if (notes != null) 'notes': notes,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  ReceiptsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? assessmentYearId,
+    Value<int>? categoryId,
+    Value<String>? merchant,
+    Value<DateTime>? receiptDate,
+    Value<double>? amount,
+    Value<String>? imagePath,
+    Value<String?>? notes,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+  }) {
+    return ReceiptsCompanion(
+      id: id ?? this.id,
+      assessmentYearId: assessmentYearId ?? this.assessmentYearId,
+      categoryId: categoryId ?? this.categoryId,
+      merchant: merchant ?? this.merchant,
+      receiptDate: receiptDate ?? this.receiptDate,
+      amount: amount ?? this.amount,
+      imagePath: imagePath ?? this.imagePath,
+      notes: notes ?? this.notes,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (assessmentYearId.present) {
+      map['assessment_year_id'] = Variable<int>(assessmentYearId.value);
+    }
+    if (categoryId.present) {
+      map['category_id'] = Variable<int>(categoryId.value);
+    }
+    if (merchant.present) {
+      map['merchant'] = Variable<String>(merchant.value);
+    }
+    if (receiptDate.present) {
+      map['receipt_date'] = Variable<DateTime>(receiptDate.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<double>(amount.value);
+    }
+    if (imagePath.present) {
+      map['image_path'] = Variable<String>(imagePath.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReceiptsCompanion(')
+          ..write('id: $id, ')
+          ..write('assessmentYearId: $assessmentYearId, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('merchant: $merchant, ')
+          ..write('receiptDate: $receiptDate, ')
+          ..write('amount: $amount, ')
+          ..write('imagePath: $imagePath, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2046,6 +2657,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TaxCategoriesTable taxCategories = $TaxCategoriesTable(this);
   late final $TaxRulesTable taxRules = $TaxRulesTable(this);
   late final $TaxReliefsTable taxReliefs = $TaxReliefsTable(this);
+  late final $ReceiptsTable receipts = $ReceiptsTable(this);
   late final AssessmentYearDao assessmentYearDao = AssessmentYearDao(
     this as AppDatabase,
   );
@@ -2053,6 +2665,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this as AppDatabase,
   );
   late final TaxRuleDao taxRuleDao = TaxRuleDao(this as AppDatabase);
+  late final ReceiptDao receiptDao = ReceiptDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2062,6 +2675,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     taxCategories,
     taxRules,
     taxReliefs,
+    receipts,
   ];
 }
 
@@ -2107,6 +2721,25 @@ final class $$AssessmentYearsTableReferences
     ).filter((f) => f.assessmentYearId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_taxRulesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ReceiptsTable, List<Receipt>> _receiptsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.receipts,
+    aliasName: 'assessment_years__id__receipts__assessment_year_id',
+  );
+
+  $$ReceiptsTableProcessedTableManager get receiptsRefs {
+    final manager = $$ReceiptsTableTableManager(
+      $_db,
+      $_db.receipts,
+    ).filter((f) => f.assessmentYearId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_receiptsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -2168,6 +2801,31 @@ class $$AssessmentYearsTableFilterComposer
           }) => $$TaxRulesTableFilterComposer(
             $db: $db,
             $table: $db.taxRules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> receiptsRefs(
+    Expression<bool> Function($$ReceiptsTableFilterComposer f) f,
+  ) {
+    final $$ReceiptsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.receipts,
+      getReferencedColumn: (t) => t.assessmentYearId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReceiptsTableFilterComposer(
+            $db: $db,
+            $table: $db.receipts,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -2269,6 +2927,31 @@ class $$AssessmentYearsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> receiptsRefs<T extends Object>(
+    Expression<T> Function($$ReceiptsTableAnnotationComposer a) f,
+  ) {
+    final $$ReceiptsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.receipts,
+      getReferencedColumn: (t) => t.assessmentYearId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReceiptsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.receipts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$AssessmentYearsTableTableManager
@@ -2284,7 +2967,7 @@ class $$AssessmentYearsTableTableManager
           $$AssessmentYearsTableUpdateCompanionBuilder,
           (AssessmentYear, $$AssessmentYearsTableReferences),
           AssessmentYear,
-          PrefetchHooks Function({bool taxRulesRefs})
+          PrefetchHooks Function({bool taxRulesRefs, bool receiptsRefs})
         > {
   $$AssessmentYearsTableTableManager(
     _$AppDatabase db,
@@ -2339,38 +3022,63 @@ class $$AssessmentYearsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({taxRulesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (taxRulesRefs) db.taxRules],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (taxRulesRefs)
-                    await $_getPrefetchedData<
-                      AssessmentYear,
-                      $AssessmentYearsTable,
-                      TaxRule
-                    >(
-                      currentTable: table,
-                      referencedTable: $$AssessmentYearsTableReferences
-                          ._taxRulesRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$AssessmentYearsTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).taxRulesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.assessmentYearId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({taxRulesRefs = false, receiptsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taxRulesRefs) db.taxRules,
+                    if (receiptsRefs) db.receipts,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taxRulesRefs)
+                        await $_getPrefetchedData<
+                          AssessmentYear,
+                          $AssessmentYearsTable,
+                          TaxRule
+                        >(
+                          currentTable: table,
+                          referencedTable: $$AssessmentYearsTableReferences
+                              ._taxRulesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$AssessmentYearsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taxRulesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.assessmentYearId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (receiptsRefs)
+                        await $_getPrefetchedData<
+                          AssessmentYear,
+                          $AssessmentYearsTable,
+                          Receipt
+                        >(
+                          currentTable: table,
+                          referencedTable: $$AssessmentYearsTableReferences
+                              ._receiptsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$AssessmentYearsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).receiptsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.assessmentYearId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -2387,7 +3095,7 @@ typedef $$AssessmentYearsTableProcessedTableManager =
       $$AssessmentYearsTableUpdateCompanionBuilder,
       (AssessmentYear, $$AssessmentYearsTableReferences),
       AssessmentYear,
-      PrefetchHooks Function({bool taxRulesRefs})
+      PrefetchHooks Function({bool taxRulesRefs, bool receiptsRefs})
     >;
 typedef $$TaxCategoriesTableCreateCompanionBuilder =
     TaxCategoriesCompanion Function({
@@ -2436,6 +3144,25 @@ final class $$TaxCategoriesTableReferences
     ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_taxRulesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ReceiptsTable, List<Receipt>> _receiptsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.receipts,
+    aliasName: 'tax_categories__id__receipts__category_id',
+  );
+
+  $$ReceiptsTableProcessedTableManager get receiptsRefs {
+    final manager = $$ReceiptsTableTableManager(
+      $_db,
+      $_db.receipts,
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_receiptsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -2512,6 +3239,31 @@ class $$TaxCategoriesTableFilterComposer
           }) => $$TaxRulesTableFilterComposer(
             $db: $db,
             $table: $db.taxRules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> receiptsRefs(
+    Expression<bool> Function($$ReceiptsTableFilterComposer f) f,
+  ) {
+    final $$ReceiptsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.receipts,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReceiptsTableFilterComposer(
+            $db: $db,
+            $table: $db.receipts,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -2641,6 +3393,31 @@ class $$TaxCategoriesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> receiptsRefs<T extends Object>(
+    Expression<T> Function($$ReceiptsTableAnnotationComposer a) f,
+  ) {
+    final $$ReceiptsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.receipts,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReceiptsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.receipts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$TaxCategoriesTableTableManager
@@ -2656,7 +3433,7 @@ class $$TaxCategoriesTableTableManager
           $$TaxCategoriesTableUpdateCompanionBuilder,
           (TaxCategory, $$TaxCategoriesTableReferences),
           TaxCategory,
-          PrefetchHooks Function({bool taxRulesRefs})
+          PrefetchHooks Function({bool taxRulesRefs, bool receiptsRefs})
         > {
   $$TaxCategoriesTableTableManager(_$AppDatabase db, $TaxCategoriesTable table)
     : super(
@@ -2721,36 +3498,63 @@ class $$TaxCategoriesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({taxRulesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (taxRulesRefs) db.taxRules],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (taxRulesRefs)
-                    await $_getPrefetchedData<
-                      TaxCategory,
-                      $TaxCategoriesTable,
-                      TaxRule
-                    >(
-                      currentTable: table,
-                      referencedTable: $$TaxCategoriesTableReferences
-                          ._taxRulesRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$TaxCategoriesTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).taxRulesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.categoryId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({taxRulesRefs = false, receiptsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taxRulesRefs) db.taxRules,
+                    if (receiptsRefs) db.receipts,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taxRulesRefs)
+                        await $_getPrefetchedData<
+                          TaxCategory,
+                          $TaxCategoriesTable,
+                          TaxRule
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TaxCategoriesTableReferences
+                              ._taxRulesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TaxCategoriesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taxRulesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.categoryId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (receiptsRefs)
+                        await $_getPrefetchedData<
+                          TaxCategory,
+                          $TaxCategoriesTable,
+                          Receipt
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TaxCategoriesTableReferences
+                              ._receiptsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TaxCategoriesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).receiptsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.categoryId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -2767,7 +3571,7 @@ typedef $$TaxCategoriesTableProcessedTableManager =
       $$TaxCategoriesTableUpdateCompanionBuilder,
       (TaxCategory, $$TaxCategoriesTableReferences),
       TaxCategory,
-      PrefetchHooks Function({bool taxRulesRefs})
+      PrefetchHooks Function({bool taxRulesRefs, bool receiptsRefs})
     >;
 typedef $$TaxRulesTableCreateCompanionBuilder =
     TaxRulesCompanion Function({
@@ -3497,6 +4301,502 @@ typedef $$TaxReliefsTableProcessedTableManager =
       TaxRelief,
       PrefetchHooks Function()
     >;
+typedef $$ReceiptsTableCreateCompanionBuilder =
+    ReceiptsCompanion Function({
+      Value<int> id,
+      required int assessmentYearId,
+      required int categoryId,
+      required String merchant,
+      required DateTime receiptDate,
+      required double amount,
+      required String imagePath,
+      Value<String?> notes,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+    });
+typedef $$ReceiptsTableUpdateCompanionBuilder =
+    ReceiptsCompanion Function({
+      Value<int> id,
+      Value<int> assessmentYearId,
+      Value<int> categoryId,
+      Value<String> merchant,
+      Value<DateTime> receiptDate,
+      Value<double> amount,
+      Value<String> imagePath,
+      Value<String?> notes,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+    });
+
+final class $$ReceiptsTableReferences
+    extends BaseReferences<_$AppDatabase, $ReceiptsTable, Receipt> {
+  $$ReceiptsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $AssessmentYearsTable _assessmentYearIdTable(_$AppDatabase db) => db
+      .assessmentYears
+      .createAlias('receipts__assessment_year_id__assessment_years__id');
+
+  $$AssessmentYearsTableProcessedTableManager get assessmentYearId {
+    final $_column = $_itemColumn<int>('assessment_year_id')!;
+
+    final manager = $$AssessmentYearsTableTableManager(
+      $_db,
+      $_db.assessmentYears,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_assessmentYearIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $TaxCategoriesTable _categoryIdTable(_$AppDatabase db) =>
+      db.taxCategories.createAlias('receipts__category_id__tax_categories__id');
+
+  $$TaxCategoriesTableProcessedTableManager get categoryId {
+    final $_column = $_itemColumn<int>('category_id')!;
+
+    final manager = $$TaxCategoriesTableTableManager(
+      $_db,
+      $_db.taxCategories,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ReceiptsTableFilterComposer
+    extends Composer<_$AppDatabase, $ReceiptsTable> {
+  $$ReceiptsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get merchant => $composableBuilder(
+    column: $table.merchant,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get receiptDate => $composableBuilder(
+    column: $table.receiptDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$AssessmentYearsTableFilterComposer get assessmentYearId {
+    final $$AssessmentYearsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assessmentYearId,
+      referencedTable: $db.assessmentYears,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AssessmentYearsTableFilterComposer(
+            $db: $db,
+            $table: $db.assessmentYears,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TaxCategoriesTableFilterComposer get categoryId {
+    final $$TaxCategoriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.taxCategories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaxCategoriesTableFilterComposer(
+            $db: $db,
+            $table: $db.taxCategories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReceiptsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ReceiptsTable> {
+  $$ReceiptsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get merchant => $composableBuilder(
+    column: $table.merchant,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get receiptDate => $composableBuilder(
+    column: $table.receiptDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$AssessmentYearsTableOrderingComposer get assessmentYearId {
+    final $$AssessmentYearsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assessmentYearId,
+      referencedTable: $db.assessmentYears,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AssessmentYearsTableOrderingComposer(
+            $db: $db,
+            $table: $db.assessmentYears,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TaxCategoriesTableOrderingComposer get categoryId {
+    final $$TaxCategoriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.taxCategories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaxCategoriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.taxCategories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReceiptsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ReceiptsTable> {
+  $$ReceiptsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get merchant =>
+      $composableBuilder(column: $table.merchant, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get receiptDate => $composableBuilder(
+    column: $table.receiptDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get amount =>
+      $composableBuilder(column: $table.amount, builder: (column) => column);
+
+  GeneratedColumn<String> get imagePath =>
+      $composableBuilder(column: $table.imagePath, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$AssessmentYearsTableAnnotationComposer get assessmentYearId {
+    final $$AssessmentYearsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assessmentYearId,
+      referencedTable: $db.assessmentYears,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AssessmentYearsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.assessmentYears,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TaxCategoriesTableAnnotationComposer get categoryId {
+    final $$TaxCategoriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.taxCategories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaxCategoriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taxCategories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReceiptsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ReceiptsTable,
+          Receipt,
+          $$ReceiptsTableFilterComposer,
+          $$ReceiptsTableOrderingComposer,
+          $$ReceiptsTableAnnotationComposer,
+          $$ReceiptsTableCreateCompanionBuilder,
+          $$ReceiptsTableUpdateCompanionBuilder,
+          (Receipt, $$ReceiptsTableReferences),
+          Receipt,
+          PrefetchHooks Function({bool assessmentYearId, bool categoryId})
+        > {
+  $$ReceiptsTableTableManager(_$AppDatabase db, $ReceiptsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReceiptsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReceiptsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReceiptsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> assessmentYearId = const Value.absent(),
+                Value<int> categoryId = const Value.absent(),
+                Value<String> merchant = const Value.absent(),
+                Value<DateTime> receiptDate = const Value.absent(),
+                Value<double> amount = const Value.absent(),
+                Value<String> imagePath = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+              }) => ReceiptsCompanion(
+                id: id,
+                assessmentYearId: assessmentYearId,
+                categoryId: categoryId,
+                merchant: merchant,
+                receiptDate: receiptDate,
+                amount: amount,
+                imagePath: imagePath,
+                notes: notes,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int assessmentYearId,
+                required int categoryId,
+                required String merchant,
+                required DateTime receiptDate,
+                required double amount,
+                required String imagePath,
+                Value<String?> notes = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+              }) => ReceiptsCompanion.insert(
+                id: id,
+                assessmentYearId: assessmentYearId,
+                categoryId: categoryId,
+                merchant: merchant,
+                receiptDate: receiptDate,
+                amount: amount,
+                imagePath: imagePath,
+                notes: notes,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ReceiptsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({assessmentYearId = false, categoryId = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (assessmentYearId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.assessmentYearId,
+                                    referencedTable: $$ReceiptsTableReferences
+                                        ._assessmentYearIdTable(db),
+                                    referencedColumn: $$ReceiptsTableReferences
+                                        ._assessmentYearIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (categoryId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.categoryId,
+                                    referencedTable: $$ReceiptsTableReferences
+                                        ._categoryIdTable(db),
+                                    referencedColumn: $$ReceiptsTableReferences
+                                        ._categoryIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$ReceiptsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ReceiptsTable,
+      Receipt,
+      $$ReceiptsTableFilterComposer,
+      $$ReceiptsTableOrderingComposer,
+      $$ReceiptsTableAnnotationComposer,
+      $$ReceiptsTableCreateCompanionBuilder,
+      $$ReceiptsTableUpdateCompanionBuilder,
+      (Receipt, $$ReceiptsTableReferences),
+      Receipt,
+      PrefetchHooks Function({bool assessmentYearId, bool categoryId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3509,4 +4809,6 @@ class $AppDatabaseManager {
       $$TaxRulesTableTableManager(_db, _db.taxRules);
   $$TaxReliefsTableTableManager get taxReliefs =>
       $$TaxReliefsTableTableManager(_db, _db.taxReliefs);
+  $$ReceiptsTableTableManager get receipts =>
+      $$ReceiptsTableTableManager(_db, _db.receipts);
 }
