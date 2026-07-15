@@ -16,3 +16,10 @@ final totalReceiptAmountProvider = FutureProvider.autoDispose<double>((
 
   return repository.getTotalAmount();
 });
+final totalReceiptCountProvider = FutureProvider.autoDispose<int>((ref) async {
+  final repository = ref.watch(receiptRepositoryProvider);
+
+  final receipts = await repository.getAllReceipts();
+
+  return receipts.length;
+});

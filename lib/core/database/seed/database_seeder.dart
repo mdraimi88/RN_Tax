@@ -23,13 +23,15 @@ class DatabaseSeeder {
     if (total > 0) return;
 
     for (final year in AssessmentYearSeed.years) {
-      await database.into(database.assessmentYears).insert(
-        AssessmentYearsCompanion.insert(
-          year: year,
-          isActive: Value(year == 2026),
-          isLocked: const Value(false),
-        ),
-      );
+      await database
+          .into(database.assessmentYears)
+          .insert(
+            AssessmentYearsCompanion.insert(
+              year: year,
+              isActive: Value(year == 2026),
+              isLocked: const Value(false),
+            ),
+          );
     }
   }
 
@@ -42,16 +44,18 @@ class DatabaseSeeder {
     if (total > 0) return;
 
     for (final category in TaxCategorySeed.categories) {
-      await database.into(database.taxCategories).insert(
-        TaxCategoriesCompanion.insert(
-          code: category['code']!,
-          nameMs: category['nameMs']!,
-          nameEn: category['nameEn']!,
-          descriptionMs: const Value(null),
-          descriptionEn: const Value(null),
-          isActive: const Value(true),
-        ),
-      );
+      await database
+          .into(database.taxCategories)
+          .insert(
+            TaxCategoriesCompanion.insert(
+              code: category['code']!,
+              nameMs: category['nameMs']!,
+              nameEn: category['nameEn']!,
+              descriptionMs: const Value(null),
+              descriptionEn: const Value(null),
+              isActive: const Value(true),
+            ),
+          );
     }
   }
 }
