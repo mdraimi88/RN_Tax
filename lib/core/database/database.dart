@@ -21,19 +21,8 @@ import 'tables/tax_rules.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [
-    AssessmentYears,
-    TaxCategories,
-    TaxRules,
-    TaxReliefs,
-    Receipts,
-  ],
-  daos: [
-    AssessmentYearDao,
-    TaxCategoryDao,
-    TaxRuleDao,
-    ReceiptDao,
-  ],
+  tables: [AssessmentYears, TaxCategories, TaxRules, TaxReliefs, Receipts],
+  daos: [AssessmentYearDao, TaxCategoryDao, TaxRuleDao, ReceiptDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -58,9 +47,7 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final directory = await getApplicationDocumentsDirectory();
 
-    final file = File(
-      p.join(directory.path, AppConstants.databaseName),
-    );
+    final file = File(p.join(directory.path, AppConstants.databaseName));
 
     return NativeDatabase.createInBackground(file);
   });

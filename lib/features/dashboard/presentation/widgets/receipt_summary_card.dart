@@ -59,7 +59,7 @@ class ReceiptSummaryCard extends ConsumerWidget {
             return InfoCard(
               title: 'Ringkasan Resit',
               value:
-              '${receiptList.length} Resit\nRM ${amount.toStringAsFixed(2)}',
+                  '${receiptList.length} Resit\nRM ${amount.toStringAsFixed(2)}',
               icon: Icons.receipt_long,
             );
           },

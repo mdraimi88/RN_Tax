@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../receipt/presentation/pages/add_receipt_page.dart';
+
 import '../widgets/assessment_year_card.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/database_status_card.dart';
@@ -13,6 +15,19 @@ class DashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'add_receipt',
+        tooltip: 'Tambah Resit',
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => const AddReceiptPage(),
+            ),
+          );
+        },
+      ),
+
       body: const SingleChildScrollView(
         child: Column(
           children: [
