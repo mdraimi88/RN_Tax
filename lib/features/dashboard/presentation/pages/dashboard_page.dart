@@ -20,11 +20,9 @@ class DashboardPage extends ConsumerWidget {
         tooltip: 'Tambah Resit',
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const AddReceiptPage(),
-            ),
-          );
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const AddReceiptPage()));
         },
       ),
 
