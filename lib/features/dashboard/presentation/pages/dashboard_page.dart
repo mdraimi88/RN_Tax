@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../receipt/presentation/pages/add_receipt_page.dart';
-
+import '../../../receipt/presentation/widgets/receipt_list_card.dart';
 import '../widgets/assessment_year_card.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/database_status_card.dart';
@@ -48,6 +48,9 @@ class DashboardPage extends ConsumerWidget {
                   SizedBox(height: 16),
 
                   DatabaseStatusCard(),
+                  SizedBox(height: 16),
+
+                  ReceiptListCard(),
                 ],
               ),
             ),

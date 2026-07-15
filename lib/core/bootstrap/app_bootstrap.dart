@@ -1,5 +1,5 @@
 import '../database/database.dart';
-import '../database/seed/database_seed.dart';
+import '../database/seed/database_seeder.dart';
 
 class AppBootstrap {
   const AppBootstrap._();
@@ -7,7 +7,7 @@ class AppBootstrap {
   static Future<void> initialize() async {
     final database = AppDatabase();
 
-    await DatabaseSeed(database).seed();
+    await DatabaseSeeder(database).seed();
 
     await database.close();
   }

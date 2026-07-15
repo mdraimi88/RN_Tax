@@ -1,32 +1,30 @@
-import 'package:drift/drift.dart';
-
-import '../../config/app_constants.dart';
-import '../database.dart';
-
 class AssessmentYearSeed {
-  final AppDatabase database;
-
-  AssessmentYearSeed(this.database);
-
-  Future<void> seed() async {
-    final existing = await database.assessmentYearDao.getAll();
-
-    if (existing.isNotEmpty) {
-      return;
-    }
-
-    for (
-      int year = AppConstants.minAssessmentYear;
-      year <= AppConstants.maxAssessmentYear;
-      year++
-    ) {
-      await database.assessmentYearDao.insertYear(
-        AssessmentYearsCompanion.insert(
-          year: year,
-          isActive: Value(year == AppConstants.defaultAssessmentYear),
-          isLocked: const Value(false),
-        ),
-      );
-    }
-  }
+  static const years = [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027,
+    2028,
+    2029,
+    2030,
+    2031,
+    2032,
+    2033,
+    2034,
+    2035,
+  ];
 }
