@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,12 +5,8 @@ import '../../domain/models/create_receipt_request.dart';
 import '../../providers/image_picker_provider.dart';
 import '../../providers/receipt_notifier.dart';
 
-import '../widgets/amount_text_field.dart';
-import '../widgets/assessment_year_dropdown.dart';
-import '../widgets/category_dropdown.dart';
-import '../widgets/merchant_text_field.dart';
-import '../widgets/notes_text_field.dart';
-import '../widgets/receipt_date_field.dart';
+import '../widgets/receipt_form.dart';
+import '../../../tax/providers/assessment_year_list_provider.dart';
 
 class AddReceiptPage extends ConsumerStatefulWidget {
   const AddReceiptPage({super.key});
@@ -28,7 +22,7 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
   final _amountController = TextEditingController();
   final _notesController = TextEditingController();
 
-  int? _selectedAssessmentYear = 1;
+  int? _selectedAssessmentYear;
   int? _selectedCategoryId;
 
   DateTime _receiptDate = DateTime.now();
@@ -37,6 +31,34 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
 
   bool _isSaving = false;
 
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final years = await ref.read(assessmentYearListProvider.future);
+
+      if (!mounted) return;
+
+      final defaultYear = DateTime.now().year - 1;
+
+      try {
+        final selected = years.firstWhere(
+              (item) => item.year == defaultYear,
+        );
+
+        setState(() {
+          _selectedAssessmentYear = selected.id;
+        });
+      } catch (_) {
+        if (years.isNotEmpty) {
+          setState(() {
+            _selectedAssessmentYear = years.first.id;
+          });
+        }
+      }
+    });
+  }
   @override
   void dispose() {
     _merchantController.dispose();
@@ -150,103 +172,64 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tambah Resit')),
+      appBar: AppBar(
+        title: const Text('Tambah Resit'),
+      ),
       body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              MerchantTextField(controller: _merchantController),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            ReceiptForm(
+              formKey: _formKey,
+              merchantController: _merchantController,
+              amountController: _amountController,
+              notesController: _notesController,
+              assessmentYearId: _selectedAssessmentYear,
+              categoryId: _selectedCategoryId,
+              receiptDate: _receiptDate,
+              imagePath: _imagePath,
+              onAssessmentYearChanged: (value) {
+                setState(() {
+                  _selectedAssessmentYear = value;
+                });
+              },
+              onCategoryChanged: (value) {
+                setState(() {
+                  _selectedCategoryId = value;
+                });
+              },
+              onPickReceiptDate: _pickReceiptDate,
+              onCameraPressed: _pickImageFromCamera,
+              onGalleryPressed: _pickImageFromGallery,
+            ),
 
-              const SizedBox(height: 16),
+            const SizedBox(height: 30),
 
-              AssessmentYearDropdown(
-                value: _selectedAssessmentYear,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedAssessmentYear = value;
-                  });
-                },
-              ),
-
-              const SizedBox(height: 16),
-
-              CategoryDropdown(
-                value: _selectedCategoryId,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategoryId = value;
-                  });
-                },
-              ),
-
-              const SizedBox(height: 16),
-
-              ReceiptDateField(
-                selectedDate: _receiptDate,
-                onTap: _pickReceiptDate,
-              ),
-
-              const SizedBox(height: 16),
-
-              AmountTextField(controller: _amountController),
-
-              const SizedBox(height: 16),
-
-              NotesTextField(controller: _notesController),
-
-              const SizedBox(height: 24),
-
-              OutlinedButton.icon(
-                onPressed: _pickImageFromCamera,
-                icon: const Icon(Icons.camera_alt),
-                label: const Text('Ambil Gambar'),
-              ),
-
-              const SizedBox(height: 12),
-
-              OutlinedButton.icon(
-                onPressed: _pickImageFromGallery,
-                icon: const Icon(Icons.photo_library),
-                label: const Text('Pilih Dari Galeri'),
-              ),
-
-              if (_imagePath != null) ...[
-                const SizedBox(height: 20),
-
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.file(
-                    File(_imagePath!),
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton.icon(
+                onPressed: _isSaving ? null : _saveReceipt,
+                icon: _isSaving
+                    ? const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
                   ),
-                ),
-              ],
-
-              const SizedBox(height: 30),
-
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton.icon(
-                  onPressed: _isSaving ? null : _saveReceipt,
-                  icon: _isSaving
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.save),
-                  label: Text(_isSaving ? 'MENYIMPAN...' : 'SIMPAN RESIT'),
+                )
+                    : const Icon(Icons.save),
+                label: Text(
+                  _isSaving
+                      ? 'MENYIMPAN...'
+                      : 'SIMPAN RESIT',
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

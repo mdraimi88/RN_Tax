@@ -56,7 +56,7 @@ class DashboardPage extends ConsumerWidget {
                   SizedBox(height: 16),
 
                   ReceiptListCard(),
-                  ReceiptListCard(),
+
                 ],
               ),
             ),

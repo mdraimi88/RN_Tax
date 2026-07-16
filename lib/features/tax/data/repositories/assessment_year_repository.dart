@@ -10,7 +10,26 @@ class AssessmentYearRepository {
     return dao.getAll();
   }
 
-  Future<AssessmentYear?> getActiveYear() {
-    return dao.getActive();
+  Future<AssessmentYear?> getActiveYear() async {
+    final years = await dao.getAll();
+
+    if (years.isEmpty) {
+      return null;
+    }
+
+    final targetYear = DateTime.now().year - 1;
+
+    try {
+      return years.firstWhere(
+            (year) => year.year == targetYear,
+      );
+    } catch (_) {
+      // Jika tiada tahun semasa - 1, ambil tahun terakhir
+      return years.last;
+    }
+  }
+
+  Future<void> setActiveYear(int id) {
+    return dao.setActiveYear(id);
   }
 }

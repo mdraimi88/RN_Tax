@@ -11,8 +11,8 @@ class MerchantTextField extends StatelessWidget {
       controller: controller,
       textCapitalization: TextCapitalization.words,
       decoration: const InputDecoration(
-        labelText: 'Nama Kedai',
-        hintText: 'Contoh: Watsons, Guardian',
+        labelText: 'Nama Institusi',
+        hintText: 'Contoh: KPJ, JMC, Zurich Takaful',
         prefixIcon: Icon(Icons.store),
         border: OutlineInputBorder(),
       ),
