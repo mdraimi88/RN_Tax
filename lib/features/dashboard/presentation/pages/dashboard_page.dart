@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/assessment_year_card.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/database_status_card.dart';
-import '../widgets/receipt_summary_card.dart';
 import '../widgets/tax_relief_card.dart';
 
 import '../../../receipt/presentation/pages/add_receipt_page.dart';
 import '../../../receipt/presentation/widgets/receipt_list_card.dart';
 import '../../../receipt/presentation/widgets/search_receipt_card.dart';
+import '../widgets/dashboard_summary_card.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
@@ -28,7 +28,7 @@ class DashboardPage extends ConsumerWidget {
         },
       ),
 
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             DashboardHeader(),
@@ -41,7 +41,7 @@ class DashboardPage extends ConsumerWidget {
 
                   SizedBox(height: 16),
 
-                  ReceiptSummaryCard(),
+                  DashboardSummaryCard(),
 
                   SizedBox(height: 16),
 
