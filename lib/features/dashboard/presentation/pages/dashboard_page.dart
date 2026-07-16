@@ -9,6 +9,7 @@ import '../widgets/tax_relief_card.dart';
 
 import '../../../receipt/presentation/pages/add_receipt_page.dart';
 import '../../../receipt/presentation/widgets/receipt_list_card.dart';
+import '../../../receipt/presentation/widgets/search_receipt_card.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
@@ -50,7 +51,11 @@ class DashboardPage extends ConsumerWidget {
 
                   DatabaseStatusCard(),
                   SizedBox(height: 16),
+                  SearchReceiptCard(),
 
+                  SizedBox(height: 16),
+
+                  ReceiptListCard(),
                   ReceiptListCard(),
                 ],
               ),

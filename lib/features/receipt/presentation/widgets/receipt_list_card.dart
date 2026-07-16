@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../providers/receipt_provider.dart';
 import '../pages/receipt_detail_page.dart';
+import '../../providers/filtered_receipt_provider.dart';
 
 class ReceiptListCard extends ConsumerWidget {
   const ReceiptListCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final receiptAsync = ref.watch(receiptProvider);
+    final receiptAsync = ref.watch(filteredReceiptProvider);
 
     return Card(
       elevation: 2,
