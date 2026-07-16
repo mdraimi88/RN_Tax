@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'amount_text_field.dart';
@@ -8,6 +6,7 @@ import 'category_dropdown.dart';
 import 'merchant_text_field.dart';
 import 'notes_text_field.dart';
 import 'receipt_date_field.dart';
+import 'receipt_image_card.dart';
 
 class ReceiptForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -30,6 +29,12 @@ class ReceiptForm extends StatelessWidget {
   final VoidCallback onCameraPressed;
   final VoidCallback onGalleryPressed;
 
+  /// Widget di bahagian bawah form.
+  /// Contoh:
+  /// - Add Receipt -> Butang SIMPAN
+  /// - Edit Receipt -> Butang KEMASKINI
+  final Widget footer;
+
   const ReceiptForm({
     super.key,
     required this.formKey,
@@ -45,6 +50,7 @@ class ReceiptForm extends StatelessWidget {
     required this.onPickReceiptDate,
     required this.onCameraPressed,
     required this.onGalleryPressed,
+    required this.footer,
   });
 
   @override
@@ -52,6 +58,7 @@ class ReceiptForm extends StatelessWidget {
     return Form(
       key: formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MerchantTextField(
             controller: merchantController,
@@ -92,33 +99,15 @@ class ReceiptForm extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          OutlinedButton.icon(
-            onPressed: onCameraPressed,
-            icon: const Icon(Icons.camera_alt),
-            label: const Text('Ambil Gambar'),
+          ReceiptImageCard(
+            imagePath: imagePath,
+            onCameraPressed: onCameraPressed,
+            onGalleryPressed: onGalleryPressed,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 30),
 
-          OutlinedButton.icon(
-            onPressed: onGalleryPressed,
-            icon: const Icon(Icons.photo_library),
-            label: const Text('Pilih Dari Galeri'),
-          ),
-
-          if (imagePath != null && imagePath!.isNotEmpty) ...[
-            const SizedBox(height: 20),
-
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.file(
-                File(imagePath!),
-                width: double.infinity,
-                height: 220,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ],
+          footer,
         ],
       ),
     );

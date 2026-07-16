@@ -171,7 +171,7 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
     }
   }
 
-  @override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,28 +204,26 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
               onPickReceiptDate: _pickReceiptDate,
               onCameraPressed: _pickImageFromCamera,
               onGalleryPressed: _pickImageFromGallery,
-            ),
 
-            const SizedBox(height: 30),
-
-            SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton.icon(
-                onPressed: _isSaving ? null : _saveReceipt,
-                icon: _isSaving
-                    ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
+              footer: SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: ElevatedButton.icon(
+                  onPressed: _isSaving ? null : _saveReceipt,
+                  icon: _isSaving
+                      ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  )
+                      : const Icon(Icons.save),
+                  label: Text(
+                    _isSaving
+                        ? 'MENYIMPAN...'
+                        : 'SIMPAN RESIT',
                   ),
-                )
-                    : const Icon(Icons.save),
-                label: Text(
-                  _isSaving
-                      ? 'MENYIMPAN...'
-                      : 'SIMPAN RESIT',
                 ),
               ),
             ),
