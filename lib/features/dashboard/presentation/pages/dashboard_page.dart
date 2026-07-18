@@ -10,6 +10,7 @@ import '../../../receipt/presentation/pages/add_receipt_page.dart';
 import '../../../receipt/presentation/widgets/receipt_list_card.dart';
 import '../../../receipt/presentation/widgets/search_receipt_card.dart';
 import '../widgets/dashboard_summary_card.dart';
+import '../widgets/tax_progress_card.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
@@ -42,8 +43,12 @@ class DashboardPage extends ConsumerWidget {
                   SizedBox(height: 16),
 
                   DashboardSummaryCard(),
+                  const SizedBox(height: 16),
 
-                  SizedBox(height: 16),
+                  TaxProgressCard(),
+
+                  const SizedBox(height: 16),
+
 
                   TaxReliefCard(),
 
