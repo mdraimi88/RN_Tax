@@ -1,10 +1,12 @@
 import '../../../../core/database/dao/receipt_dao.dart';
 import '../../../../core/database/database.dart';
+import '../../../tax/domain/models/top_category_summary.dart';
 
 class ReceiptRepository {
   final ReceiptDao _dao;
 
   ReceiptRepository(this._dao);
+
 
   Future<List<Receipt>> getAllReceipts() {
     return _dao.getAllReceipts();
@@ -28,5 +30,8 @@ class ReceiptRepository {
 
   Future<double> getTotalAmount() {
     return _dao.getTotalAmount();
+  }
+  Future<List<TopCategorySummary>> getTopCategories() {
+    return _dao.getTopCategories();
   }
 }
