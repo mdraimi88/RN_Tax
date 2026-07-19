@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 import '../database.dart';
 import '../tables/receipts.dart';
 import '../../../features/tax/domain/models/top_category_summary.dart';
-//import '../tables/tax_categories.dart';
+
 
 part 'receipt_dao.g.dart';
 
@@ -73,5 +73,15 @@ class ReceiptDao extends DatabaseAccessor<AppDatabase> with _$ReceiptDaoMixin {
     final result = await query.getSingle();
 
     return result.read(amountSum) ?? 0.0;
+  }
+  Future<int> getTotalReceiptCount() async {
+    final countExpression = receipts.id.count();
+
+    final query = selectOnly(receipts)
+      ..addColumns([countExpression]);
+
+    final result = await query.getSingle();
+
+    return result.read(countExpression) ?? 0;
   }
 }

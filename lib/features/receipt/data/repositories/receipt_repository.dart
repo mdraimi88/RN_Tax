@@ -7,7 +7,6 @@ class ReceiptRepository {
 
   ReceiptRepository(this._dao);
 
-
   Future<List<Receipt>> getAllReceipts() {
     return _dao.getAllReceipts();
   }
@@ -31,6 +30,11 @@ class ReceiptRepository {
   Future<double> getTotalAmount() {
     return _dao.getTotalAmount();
   }
+
+  Future<int> getTotalReceiptCount() {
+    return _dao.getTotalReceiptCount();
+  }
+
   Future<List<TopCategorySummary>> getTopCategories() {
     return _dao.getTopCategories();
   }
