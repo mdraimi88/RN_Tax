@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../receipt/presentation/pages/add_receipt_page.dart';
+import 'package:go_router/go_router.dart';
 import '../../../receipt/presentation/widgets/receipt_list_card.dart';
 import '../widgets/assessment_year_card.dart';
 import '../widgets/dashboard_header.dart';
@@ -20,11 +20,7 @@ class DashboardPage extends ConsumerWidget {
         heroTag: 'add_receipt',
         tooltip: 'Tambah Resit',
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const AddReceiptPage(),
-            ),
-          );
+          context.push('/receipts/add');
         },
         child: const Icon(Icons.add),
       ),
