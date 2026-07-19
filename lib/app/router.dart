@@ -4,6 +4,7 @@ import '../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../features/receipt/presentation/pages/add_receipt_page.dart';
 import '../features/receipt/presentation/pages/receipt_list_page.dart';
 import '../features/reports/presentation/pages/report_page.dart';
+import '../features/backup/presentation/pages/backup_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
@@ -26,6 +27,11 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/reports',
       builder: (context, state) => const ReportPage(),
+    ),
+
+    GoRoute(
+      path: '/settings/backup',
+      builder: (context, state) => const BackupPage(),
     ),
   ],
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -10,7 +11,7 @@ class SettingsPage extends StatelessWidget {
         title: const Text('Settings'),
       ),
       body: ListView(
-        children: const [
+        children: [
           ListTile(
             leading: Icon(Icons.language),
             title: Text('Language'),
@@ -18,9 +19,13 @@ class SettingsPage extends StatelessWidget {
           ),
           Divider(height: 1),
           ListTile(
-            leading: Icon(Icons.backup),
-            title: Text('Backup & Restore'),
-            subtitle: Text('Coming Soon'),
+            leading: const Icon(Icons.backup),
+            title: const Text('Backup & Restore'),
+            subtitle: const Text('Backup database and receipts'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              context.push('/settings/backup');
+            },
           ),
           Divider(height: 1),
           ListTile(
