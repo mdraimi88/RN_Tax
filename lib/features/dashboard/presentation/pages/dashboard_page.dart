@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:go_router/go_router.dart';
+
 import '../../../receipt/presentation/widgets/receipt_list_card.dart';
 import '../widgets/assessment_year_card.dart';
 import '../widgets/dashboard_header.dart';
@@ -31,23 +31,23 @@ class DashboardPage extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                children: const [
+                children: [
                   AssessmentYearCard(),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                  DashboardSummaryCard(),
-                  SizedBox(height: 16),
+                  const DashboardSummaryCard(),
+                  const SizedBox(height: 16),
 
-                  TaxProgressCard(),
-                  SizedBox(height: 16),
+                  const TaxProgressCard(),
+                  const SizedBox(height: 16),
 
-                  TaxReliefCard(),
-                  SizedBox(height: 16),
+                  const TaxReliefCard(),
+                  const SizedBox(height: 16),
 
-                  DatabaseStatusCard(),
-                  SizedBox(height: 16),
+                  const DatabaseStatusCard(),
+                  const SizedBox(height: 16),
 
-                  ReceiptListCard(),
+                  const ReceiptListCard(),
                 ],
               ),
             ),

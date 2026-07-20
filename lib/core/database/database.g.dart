@@ -2094,6 +2094,17 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _receiptNumberMeta = const VerificationMeta(
+    'receiptNumber',
+  );
+  @override
+  late final GeneratedColumn<String> receiptNumber = GeneratedColumn<String>(
+    'receipt_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _receiptDateMeta = const VerificationMeta(
     'receiptDate',
   );
@@ -2134,6 +2145,17 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _ocrTextMeta = const VerificationMeta(
+    'ocrText',
+  );
+  @override
+  late final GeneratedColumn<String> ocrText = GeneratedColumn<String>(
+    'ocr_text',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -2163,10 +2185,12 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
     assessmentYearId,
     categoryId,
     merchant,
+    receiptNumber,
     receiptDate,
     amount,
     imagePath,
     notes,
+    ocrText,
     createdAt,
     updatedAt,
   ];
@@ -2212,6 +2236,15 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
     } else if (isInserting) {
       context.missing(_merchantMeta);
     }
+    if (data.containsKey('receipt_number')) {
+      context.handle(
+        _receiptNumberMeta,
+        receiptNumber.isAcceptableOrUnknown(
+          data['receipt_number']!,
+          _receiptNumberMeta,
+        ),
+      );
+    }
     if (data.containsKey('receipt_date')) {
       context.handle(
         _receiptDateMeta,
@@ -2243,6 +2276,12 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
       context.handle(
         _notesMeta,
         notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('ocr_text')) {
+      context.handle(
+        _ocrTextMeta,
+        ocrText.isAcceptableOrUnknown(data['ocr_text']!, _ocrTextMeta),
       );
     }
     if (data.containsKey('created_at')) {
@@ -2282,6 +2321,10 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
         DriftSqlType.string,
         data['${effectivePrefix}merchant'],
       )!,
+      receiptNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}receipt_number'],
+      ),
       receiptDate: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}receipt_date'],
@@ -2297,6 +2340,10 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
       notes: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}notes'],
+      ),
+      ocrText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ocr_text'],
       ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
@@ -2320,10 +2367,20 @@ class Receipt extends DataClass implements Insertable<Receipt> {
   final int assessmentYearId;
   final int categoryId;
   final String merchant;
+
+  /// Receipt / Invoice Number
+  final String? receiptNumber;
   final DateTime receiptDate;
   final double amount;
+
+  /// Local image path
   final String imagePath;
+
+  /// Optional user notes
   final String? notes;
+
+  /// Raw OCR result for future processing
+  final String? ocrText;
   final DateTime createdAt;
   final DateTime? updatedAt;
   const Receipt({
@@ -2331,10 +2388,12 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     required this.assessmentYearId,
     required this.categoryId,
     required this.merchant,
+    this.receiptNumber,
     required this.receiptDate,
     required this.amount,
     required this.imagePath,
     this.notes,
+    this.ocrText,
     required this.createdAt,
     this.updatedAt,
   });
@@ -2345,11 +2404,17 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     map['assessment_year_id'] = Variable<int>(assessmentYearId);
     map['category_id'] = Variable<int>(categoryId);
     map['merchant'] = Variable<String>(merchant);
+    if (!nullToAbsent || receiptNumber != null) {
+      map['receipt_number'] = Variable<String>(receiptNumber);
+    }
     map['receipt_date'] = Variable<DateTime>(receiptDate);
     map['amount'] = Variable<double>(amount);
     map['image_path'] = Variable<String>(imagePath);
     if (!nullToAbsent || notes != null) {
       map['notes'] = Variable<String>(notes);
+    }
+    if (!nullToAbsent || ocrText != null) {
+      map['ocr_text'] = Variable<String>(ocrText);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     if (!nullToAbsent || updatedAt != null) {
@@ -2364,12 +2429,18 @@ class Receipt extends DataClass implements Insertable<Receipt> {
       assessmentYearId: Value(assessmentYearId),
       categoryId: Value(categoryId),
       merchant: Value(merchant),
+      receiptNumber: receiptNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(receiptNumber),
       receiptDate: Value(receiptDate),
       amount: Value(amount),
       imagePath: Value(imagePath),
       notes: notes == null && nullToAbsent
           ? const Value.absent()
           : Value(notes),
+      ocrText: ocrText == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ocrText),
       createdAt: Value(createdAt),
       updatedAt: updatedAt == null && nullToAbsent
           ? const Value.absent()
@@ -2387,10 +2458,12 @@ class Receipt extends DataClass implements Insertable<Receipt> {
       assessmentYearId: serializer.fromJson<int>(json['assessmentYearId']),
       categoryId: serializer.fromJson<int>(json['categoryId']),
       merchant: serializer.fromJson<String>(json['merchant']),
+      receiptNumber: serializer.fromJson<String?>(json['receiptNumber']),
       receiptDate: serializer.fromJson<DateTime>(json['receiptDate']),
       amount: serializer.fromJson<double>(json['amount']),
       imagePath: serializer.fromJson<String>(json['imagePath']),
       notes: serializer.fromJson<String?>(json['notes']),
+      ocrText: serializer.fromJson<String?>(json['ocrText']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -2403,10 +2476,12 @@ class Receipt extends DataClass implements Insertable<Receipt> {
       'assessmentYearId': serializer.toJson<int>(assessmentYearId),
       'categoryId': serializer.toJson<int>(categoryId),
       'merchant': serializer.toJson<String>(merchant),
+      'receiptNumber': serializer.toJson<String?>(receiptNumber),
       'receiptDate': serializer.toJson<DateTime>(receiptDate),
       'amount': serializer.toJson<double>(amount),
       'imagePath': serializer.toJson<String>(imagePath),
       'notes': serializer.toJson<String?>(notes),
+      'ocrText': serializer.toJson<String?>(ocrText),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -2417,10 +2492,12 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     int? assessmentYearId,
     int? categoryId,
     String? merchant,
+    Value<String?> receiptNumber = const Value.absent(),
     DateTime? receiptDate,
     double? amount,
     String? imagePath,
     Value<String?> notes = const Value.absent(),
+    Value<String?> ocrText = const Value.absent(),
     DateTime? createdAt,
     Value<DateTime?> updatedAt = const Value.absent(),
   }) => Receipt(
@@ -2428,10 +2505,14 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     assessmentYearId: assessmentYearId ?? this.assessmentYearId,
     categoryId: categoryId ?? this.categoryId,
     merchant: merchant ?? this.merchant,
+    receiptNumber: receiptNumber.present
+        ? receiptNumber.value
+        : this.receiptNumber,
     receiptDate: receiptDate ?? this.receiptDate,
     amount: amount ?? this.amount,
     imagePath: imagePath ?? this.imagePath,
     notes: notes.present ? notes.value : this.notes,
+    ocrText: ocrText.present ? ocrText.value : this.ocrText,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
   );
@@ -2445,12 +2526,16 @@ class Receipt extends DataClass implements Insertable<Receipt> {
           ? data.categoryId.value
           : this.categoryId,
       merchant: data.merchant.present ? data.merchant.value : this.merchant,
+      receiptNumber: data.receiptNumber.present
+          ? data.receiptNumber.value
+          : this.receiptNumber,
       receiptDate: data.receiptDate.present
           ? data.receiptDate.value
           : this.receiptDate,
       amount: data.amount.present ? data.amount.value : this.amount,
       imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
       notes: data.notes.present ? data.notes.value : this.notes,
+      ocrText: data.ocrText.present ? data.ocrText.value : this.ocrText,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -2463,10 +2548,12 @@ class Receipt extends DataClass implements Insertable<Receipt> {
           ..write('assessmentYearId: $assessmentYearId, ')
           ..write('categoryId: $categoryId, ')
           ..write('merchant: $merchant, ')
+          ..write('receiptNumber: $receiptNumber, ')
           ..write('receiptDate: $receiptDate, ')
           ..write('amount: $amount, ')
           ..write('imagePath: $imagePath, ')
           ..write('notes: $notes, ')
+          ..write('ocrText: $ocrText, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2479,10 +2566,12 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     assessmentYearId,
     categoryId,
     merchant,
+    receiptNumber,
     receiptDate,
     amount,
     imagePath,
     notes,
+    ocrText,
     createdAt,
     updatedAt,
   );
@@ -2494,10 +2583,12 @@ class Receipt extends DataClass implements Insertable<Receipt> {
           other.assessmentYearId == this.assessmentYearId &&
           other.categoryId == this.categoryId &&
           other.merchant == this.merchant &&
+          other.receiptNumber == this.receiptNumber &&
           other.receiptDate == this.receiptDate &&
           other.amount == this.amount &&
           other.imagePath == this.imagePath &&
           other.notes == this.notes &&
+          other.ocrText == this.ocrText &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -2507,10 +2598,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
   final Value<int> assessmentYearId;
   final Value<int> categoryId;
   final Value<String> merchant;
+  final Value<String?> receiptNumber;
   final Value<DateTime> receiptDate;
   final Value<double> amount;
   final Value<String> imagePath;
   final Value<String?> notes;
+  final Value<String?> ocrText;
   final Value<DateTime> createdAt;
   final Value<DateTime?> updatedAt;
   const ReceiptsCompanion({
@@ -2518,10 +2611,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     this.assessmentYearId = const Value.absent(),
     this.categoryId = const Value.absent(),
     this.merchant = const Value.absent(),
+    this.receiptNumber = const Value.absent(),
     this.receiptDate = const Value.absent(),
     this.amount = const Value.absent(),
     this.imagePath = const Value.absent(),
     this.notes = const Value.absent(),
+    this.ocrText = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -2530,10 +2625,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     required int assessmentYearId,
     required int categoryId,
     required String merchant,
+    this.receiptNumber = const Value.absent(),
     required DateTime receiptDate,
     required double amount,
     required String imagePath,
     this.notes = const Value.absent(),
+    this.ocrText = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : assessmentYearId = Value(assessmentYearId),
@@ -2547,10 +2644,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     Expression<int>? assessmentYearId,
     Expression<int>? categoryId,
     Expression<String>? merchant,
+    Expression<String>? receiptNumber,
     Expression<DateTime>? receiptDate,
     Expression<double>? amount,
     Expression<String>? imagePath,
     Expression<String>? notes,
+    Expression<String>? ocrText,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
   }) {
@@ -2559,10 +2658,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
       if (assessmentYearId != null) 'assessment_year_id': assessmentYearId,
       if (categoryId != null) 'category_id': categoryId,
       if (merchant != null) 'merchant': merchant,
+      if (receiptNumber != null) 'receipt_number': receiptNumber,
       if (receiptDate != null) 'receipt_date': receiptDate,
       if (amount != null) 'amount': amount,
       if (imagePath != null) 'image_path': imagePath,
       if (notes != null) 'notes': notes,
+      if (ocrText != null) 'ocr_text': ocrText,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -2573,10 +2674,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     Value<int>? assessmentYearId,
     Value<int>? categoryId,
     Value<String>? merchant,
+    Value<String?>? receiptNumber,
     Value<DateTime>? receiptDate,
     Value<double>? amount,
     Value<String>? imagePath,
     Value<String?>? notes,
+    Value<String?>? ocrText,
     Value<DateTime>? createdAt,
     Value<DateTime?>? updatedAt,
   }) {
@@ -2585,10 +2688,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
       assessmentYearId: assessmentYearId ?? this.assessmentYearId,
       categoryId: categoryId ?? this.categoryId,
       merchant: merchant ?? this.merchant,
+      receiptNumber: receiptNumber ?? this.receiptNumber,
       receiptDate: receiptDate ?? this.receiptDate,
       amount: amount ?? this.amount,
       imagePath: imagePath ?? this.imagePath,
       notes: notes ?? this.notes,
+      ocrText: ocrText ?? this.ocrText,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -2609,6 +2714,9 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     if (merchant.present) {
       map['merchant'] = Variable<String>(merchant.value);
     }
+    if (receiptNumber.present) {
+      map['receipt_number'] = Variable<String>(receiptNumber.value);
+    }
     if (receiptDate.present) {
       map['receipt_date'] = Variable<DateTime>(receiptDate.value);
     }
@@ -2620,6 +2728,9 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     }
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
+    }
+    if (ocrText.present) {
+      map['ocr_text'] = Variable<String>(ocrText.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -2637,10 +2748,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
           ..write('assessmentYearId: $assessmentYearId, ')
           ..write('categoryId: $categoryId, ')
           ..write('merchant: $merchant, ')
+          ..write('receiptNumber: $receiptNumber, ')
           ..write('receiptDate: $receiptDate, ')
           ..write('amount: $amount, ')
           ..write('imagePath: $imagePath, ')
           ..write('notes: $notes, ')
+          ..write('ocrText: $ocrText, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -4307,10 +4420,12 @@ typedef $$ReceiptsTableCreateCompanionBuilder =
       required int assessmentYearId,
       required int categoryId,
       required String merchant,
+      Value<String?> receiptNumber,
       required DateTime receiptDate,
       required double amount,
       required String imagePath,
       Value<String?> notes,
+      Value<String?> ocrText,
       Value<DateTime> createdAt,
       Value<DateTime?> updatedAt,
     });
@@ -4320,10 +4435,12 @@ typedef $$ReceiptsTableUpdateCompanionBuilder =
       Value<int> assessmentYearId,
       Value<int> categoryId,
       Value<String> merchant,
+      Value<String?> receiptNumber,
       Value<DateTime> receiptDate,
       Value<double> amount,
       Value<String> imagePath,
       Value<String?> notes,
+      Value<String?> ocrText,
       Value<DateTime> createdAt,
       Value<DateTime?> updatedAt,
     });
@@ -4387,6 +4504,11 @@ class $$ReceiptsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get receiptNumber => $composableBuilder(
+    column: $table.receiptNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<DateTime> get receiptDate => $composableBuilder(
     column: $table.receiptDate,
     builder: (column) => ColumnFilters(column),
@@ -4404,6 +4526,11 @@ class $$ReceiptsTableFilterComposer
 
   ColumnFilters<String> get notes => $composableBuilder(
     column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get ocrText => $composableBuilder(
+    column: $table.ocrText,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4483,6 +4610,11 @@ class $$ReceiptsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get receiptNumber => $composableBuilder(
+    column: $table.receiptNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get receiptDate => $composableBuilder(
     column: $table.receiptDate,
     builder: (column) => ColumnOrderings(column),
@@ -4500,6 +4632,11 @@ class $$ReceiptsTableOrderingComposer
 
   ColumnOrderings<String> get notes => $composableBuilder(
     column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get ocrText => $composableBuilder(
+    column: $table.ocrText,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -4575,6 +4712,11 @@ class $$ReceiptsTableAnnotationComposer
   GeneratedColumn<String> get merchant =>
       $composableBuilder(column: $table.merchant, builder: (column) => column);
 
+  GeneratedColumn<String> get receiptNumber => $composableBuilder(
+    column: $table.receiptNumber,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get receiptDate => $composableBuilder(
     column: $table.receiptDate,
     builder: (column) => column,
@@ -4588,6 +4730,9 @@ class $$ReceiptsTableAnnotationComposer
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<String> get ocrText =>
+      $composableBuilder(column: $table.ocrText, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -4674,10 +4819,12 @@ class $$ReceiptsTableTableManager
                 Value<int> assessmentYearId = const Value.absent(),
                 Value<int> categoryId = const Value.absent(),
                 Value<String> merchant = const Value.absent(),
+                Value<String?> receiptNumber = const Value.absent(),
                 Value<DateTime> receiptDate = const Value.absent(),
                 Value<double> amount = const Value.absent(),
                 Value<String> imagePath = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
+                Value<String?> ocrText = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
               }) => ReceiptsCompanion(
@@ -4685,10 +4832,12 @@ class $$ReceiptsTableTableManager
                 assessmentYearId: assessmentYearId,
                 categoryId: categoryId,
                 merchant: merchant,
+                receiptNumber: receiptNumber,
                 receiptDate: receiptDate,
                 amount: amount,
                 imagePath: imagePath,
                 notes: notes,
+                ocrText: ocrText,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
               ),
@@ -4698,10 +4847,12 @@ class $$ReceiptsTableTableManager
                 required int assessmentYearId,
                 required int categoryId,
                 required String merchant,
+                Value<String?> receiptNumber = const Value.absent(),
                 required DateTime receiptDate,
                 required double amount,
                 required String imagePath,
                 Value<String?> notes = const Value.absent(),
+                Value<String?> ocrText = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
               }) => ReceiptsCompanion.insert(
@@ -4709,10 +4860,12 @@ class $$ReceiptsTableTableManager
                 assessmentYearId: assessmentYearId,
                 categoryId: categoryId,
                 merchant: merchant,
+                receiptNumber: receiptNumber,
                 receiptDate: receiptDate,
                 amount: amount,
                 imagePath: imagePath,
                 notes: notes,
+                ocrText: ocrText,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
               ),
