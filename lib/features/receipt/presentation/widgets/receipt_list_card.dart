@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/utils/app_formatter.dart';
 import '../../providers/filtered_receipt_provider.dart';
-import '../pages/receipt_detail_page.dart';
+import 'receipt_tile.dart';
 
 class ReceiptListCard extends ConsumerWidget {
   const ReceiptListCard({
@@ -30,7 +29,6 @@ class ReceiptListCard extends ConsumerWidget {
               child: CircularProgressIndicator(),
             ),
           ),
-
           error: (error, stackTrace) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,14 +42,12 @@ class ReceiptListCard extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
               ],
-
               Text(
                 error.toString(),
                 style: const TextStyle(color: Colors.red),
               ),
             ],
           ),
-
           data: (receipts) {
             final displayReceipts =
             limit == null ? receipts : receipts.take(limit!).toList();
@@ -70,7 +66,6 @@ class ReceiptListCard extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                   ],
-
                   const Center(
                     child: Padding(
                       padding: EdgeInsets.all(16),
@@ -94,31 +89,9 @@ class ReceiptListCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                 ],
-
                 ...displayReceipts.map(
-                      (receipt) => ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: const CircleAvatar(
-                      child: Icon(Icons.receipt_long),
-                    ),
-                    title: Text(receipt.merchant),
-                    subtitle: Text(
-                      AppFormatter.date(receipt.receiptDate),
-                    ),
-                    trailing: Text(
-                      AppFormatter.currency(receipt.amount),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              ReceiptDetailPage(receipt: receipt),
-                        ),
-                      );
-                    },
+                      (receipt) => ReceiptTile(
+                    receipt: receipt,
                   ),
                 ),
               ],
