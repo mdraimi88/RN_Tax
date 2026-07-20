@@ -29,10 +29,6 @@ class ReceiptForm extends StatelessWidget {
   final VoidCallback onCameraPressed;
   final VoidCallback onGalleryPressed;
 
-  /// Widget di bahagian bawah form.
-  /// Contoh:
-  /// - Add Receipt -> Butang SIMPAN
-  /// - Edit Receipt -> Butang KEMASKINI
   final Widget footer;
 
   const ReceiptForm({
@@ -60,12 +56,6 @@ class ReceiptForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          MerchantTextField(
-            controller: merchantController,
-          ),
-
-          const SizedBox(height: 16),
-
           AssessmentYearDropdown(
             value: assessmentYearId,
             onChanged: onAssessmentYearChanged,
@@ -80,9 +70,8 @@ class ReceiptForm extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          ReceiptDateField(
-            selectedDate: receiptDate,
-            onTap: onPickReceiptDate,
+          MerchantTextField(
+            controller: merchantController,
           ),
 
           const SizedBox(height: 16),
@@ -93,11 +82,18 @@ class ReceiptForm extends StatelessWidget {
 
           const SizedBox(height: 16),
 
+          ReceiptDateField(
+            selectedDate: receiptDate,
+            onTap: onPickReceiptDate,
+          ),
+
+          const SizedBox(height: 16),
+
           NotesTextField(
             controller: notesController,
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
 
           ReceiptImageCard(
             imagePath: imagePath,
@@ -105,7 +101,7 @@ class ReceiptForm extends StatelessWidget {
             onGalleryPressed: onGalleryPressed,
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 24),
 
           footer,
         ],

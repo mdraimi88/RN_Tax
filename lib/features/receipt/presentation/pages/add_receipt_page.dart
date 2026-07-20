@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/models/create_receipt_request.dart';
 import '../../providers/image_picker_provider.dart';
-import '../../providers/receipt_notifier.dart';
-
 import '../widgets/receipt_form.dart';
-import '../../../tax/providers/assessment_year_list_provider.dart';
 
 class AddReceiptPage extends ConsumerStatefulWidget {
   const AddReceiptPage({super.key});
@@ -18,9 +14,9 @@ class AddReceiptPage extends ConsumerStatefulWidget {
 class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final _merchantController = TextEditingController();
-  final _amountController = TextEditingController();
-  final _notesController = TextEditingController();
+  late final TextEditingController _merchantController;
+  late final TextEditingController _amountController;
+  late final TextEditingController _notesController;
 
   int? _selectedAssessmentYear;
   int? _selectedCategoryId;
@@ -29,36 +25,17 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
 
   String? _imagePath;
 
-  bool _isSaving = false;
+  final bool _isSaving = false;
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final years = await ref.read(assessmentYearListProvider.future);
-
-      if (!mounted) return;
-
-      final defaultYear = DateTime.now().year - 1;
-
-      try {
-        final selected = years.firstWhere(
-              (item) => item.year == defaultYear,
-        );
-
-        setState(() {
-          _selectedAssessmentYear = selected.id;
-        });
-      } catch (_) {
-        if (years.isNotEmpty) {
-          setState(() {
-            _selectedAssessmentYear = years.first.id;
-          });
-        }
-      }
-    });
+    _merchantController = TextEditingController();
+    _amountController = TextEditingController();
+    _notesController = TextEditingController();
   }
+
   @override
   void dispose() {
     _merchantController.dispose();
@@ -73,16 +50,13 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
       initialDate: _receiptDate,
       firstDate: DateTime(2010),
       lastDate: DateTime.now(),
-      helpText: 'Pilih Tarikh Resit',
-      cancelText: 'Batal',
-      confirmText: 'Pilih',
     );
 
-    if (picked != null) {
-      setState(() {
-        _receiptDate = picked;
-      });
-    }
+    if (picked == null) return;
+
+    setState(() {
+      _receiptDate = picked;
+    });
   }
 
   Future<void> _pickImageFromCamera() async {
@@ -110,67 +84,8 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
   }
 
   Future<void> _saveReceipt() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    if (_selectedAssessmentYear == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sila pilih Tahun Taksiran')),
-      );
-      return;
-    }
-
-    if (_selectedCategoryId == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Sila pilih Kategori')));
-      return;
-    }
-
-    setState(() {
-      _isSaving = true;
-    });
-
-    try {
-      await ref
-          .read(receiptNotifierProvider.notifier)
-          .addReceipt(
-            CreateReceiptRequest(
-              assessmentYearId: _selectedAssessmentYear!,
-              categoryId: _selectedCategoryId!,
-              merchant: _merchantController.text.trim(),
-              receiptDate: _receiptDate,
-              amount: double.parse(_amountController.text),
-              imagePath: _imagePath ?? '',
-              notes: _notesController.text.trim().isEmpty
-                  ? null
-                  : _notesController.text.trim(),
-            ),
-          );
-
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Resit berjaya disimpan')));
-
-      Navigator.pop(context);
-    } catch (e) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Ralat: $e')));
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isSaving = false;
-        });
-      }
-    }
+    // Implement pada Sprint berikutnya.
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +119,6 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
               onPickReceiptDate: _pickReceiptDate,
               onCameraPressed: _pickImageFromCamera,
               onGalleryPressed: _pickImageFromGallery,
-
               footer: SizedBox(
                 width: double.infinity,
                 height: 52,
@@ -214,15 +128,11 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
                       ? const SizedBox(
                     width: 18,
                     height: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
+                    child: CircularProgressIndicator(strokeWidth: 2),
                   )
                       : const Icon(Icons.save),
                   label: Text(
-                    _isSaving
-                        ? 'MENYIMPAN...'
-                        : 'SIMPAN RESIT',
+                    _isSaving ? 'MENYIMPAN...' : 'SIMPAN RESIT',
                   ),
                 ),
               ),
