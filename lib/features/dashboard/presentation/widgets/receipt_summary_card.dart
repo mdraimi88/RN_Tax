@@ -9,7 +9,7 @@ class ReceiptSummaryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final receipts = ref.watch(receiptProvider);
+    final receipts = ref.watch(receiptListProvider);
     final totalAmount = ref.watch(totalReceiptAmountProvider);
 
     return receipts.when(

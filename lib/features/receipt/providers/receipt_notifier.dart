@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/database/database.dart';
 import '../domain/models/create_receipt_request.dart';
 import 'receipt_provider.dart';
-import 'receipt_repository_provider.dart';
 
 final receiptNotifierProvider = AsyncNotifierProvider<ReceiptNotifier, void>(
   ReceiptNotifier.new,
@@ -33,7 +32,7 @@ class ReceiptNotifier extends AsyncNotifier<void> {
       );
 
       // Refresh dashboard providers
-      ref.invalidate(receiptProvider);
+      ref.invalidate(receiptListProvider);
       ref.invalidate(totalReceiptAmountProvider);
 
       state = const AsyncData(null);
@@ -51,7 +50,7 @@ class ReceiptNotifier extends AsyncNotifier<void> {
 
       await repository.deleteReceipt(id);
 
-      ref.invalidate(receiptProvider);
+      ref.invalidate(receiptListProvider);
       ref.invalidate(totalReceiptAmountProvider);
 
       state = const AsyncData(null);
@@ -69,7 +68,7 @@ class ReceiptNotifier extends AsyncNotifier<void> {
 
       await repository.updateReceipt(receipt);
 
-      ref.invalidate(receiptProvider);
+      ref.invalidate(receiptListProvider);
       ref.invalidate(totalReceiptAmountProvider);
 
       state = const AsyncData(null);

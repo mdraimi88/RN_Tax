@@ -7,6 +7,22 @@ class ReceiptRepository {
 
   ReceiptRepository(this._dao);
 
+  // ===========================================================================
+  // Watch
+  // ===========================================================================
+
+  Stream<List<Receipt>> watchAllReceipts() {
+    return _dao.watchAllReceipts();
+  }
+
+  Stream<Receipt?> watchReceiptById(int id) {
+    return _dao.watchReceiptById(id);
+  }
+
+  // ===========================================================================
+  // CRUD
+  // ===========================================================================
+
   Future<List<Receipt>> getAllReceipts() {
     return _dao.getAllReceipts();
   }
@@ -26,6 +42,10 @@ class ReceiptRepository {
   Future<int> deleteReceipt(int id) {
     return _dao.deleteReceipt(id);
   }
+
+  // ===========================================================================
+  // Aggregate
+  // ===========================================================================
 
   Future<double> getTotalAmount() {
     return _dao.getTotalAmount();

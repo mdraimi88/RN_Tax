@@ -6,7 +6,7 @@ import 'search_query_provider.dart';
 
 final filteredReceiptProvider =
 Provider<AsyncValue<List<Receipt>>>((ref) {
-  final receipts = ref.watch(receiptProvider);
+  final receipts = ref.watch(receiptListProvider);
   final query = ref.watch(searchQueryProvider);
 
   return receipts.whenData((items) {
