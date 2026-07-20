@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/image_picker_provider.dart';
 import '../widgets/receipt_form.dart';
+import '../../domain/models/create_receipt_request.dart';
+import '../../providers/receipt_notifier.dart';
 
 class AddReceiptPage extends ConsumerStatefulWidget {
   const AddReceiptPage({super.key});
@@ -25,7 +27,7 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
 
   String? _imagePath;
 
-  final bool _isSaving = false;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -84,7 +86,73 @@ class _AddReceiptPageState extends ConsumerState<AddReceiptPage> {
   }
 
   Future<void> _saveReceipt() async {
-    // Implement pada Sprint berikutnya.
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (_selectedAssessmentYear == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sila pilih Tahun Taksiran'),
+        ),
+      );
+      return;
+    }
+
+    if (_selectedCategoryId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sila pilih Kategori'),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isSaving = true;
+    });
+
+    try {
+      final request = CreateReceiptRequest(
+        assessmentYearId: _selectedAssessmentYear!,
+        categoryId: _selectedCategoryId!,
+        merchant: _merchantController.text.trim(),
+        receiptDate: _receiptDate,
+        amount: double.parse(_amountController.text),
+        imagePath: _imagePath ?? '',
+        notes: _notesController.text.trim().isEmpty
+            ? null
+            : _notesController.text.trim(),
+      );
+
+      await ref
+          .read(receiptNotifierProvider.notifier)
+          .addReceipt(request);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Resit berjaya disimpan'),
+        ),
+      );
+
+      Navigator.pop(context, true);
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Ralat: $e'),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSaving = false;
+        });
+      }
+    }
   }
 
   @override
