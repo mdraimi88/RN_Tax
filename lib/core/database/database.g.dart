@@ -2156,6 +2156,31 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _isVerifiedMeta = const VerificationMeta(
+    'isVerified',
+  );
+  @override
+  late final GeneratedColumn<bool> isVerified = GeneratedColumn<bool>(
+    'is_verified',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_verified" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+    'source',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('manual'),
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -2191,6 +2216,8 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
     imagePath,
     notes,
     ocrText,
+    isVerified,
+    source,
     createdAt,
     updatedAt,
   ];
@@ -2284,6 +2311,18 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
         ocrText.isAcceptableOrUnknown(data['ocr_text']!, _ocrTextMeta),
       );
     }
+    if (data.containsKey('is_verified')) {
+      context.handle(
+        _isVerifiedMeta,
+        isVerified.isAcceptableOrUnknown(data['is_verified']!, _isVerifiedMeta),
+      );
+    }
+    if (data.containsKey('source')) {
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -2345,6 +2384,14 @@ class $ReceiptsTable extends Receipts with TableInfo<$ReceiptsTable, Receipt> {
         DriftSqlType.string,
         data['${effectivePrefix}ocr_text'],
       ),
+      isVerified: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_verified'],
+      )!,
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      )!,
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -2379,8 +2426,14 @@ class Receipt extends DataClass implements Insertable<Receipt> {
   /// Optional user notes
   final String? notes;
 
-  /// Raw OCR result for future processing
+  /// Raw OCR result
   final String? ocrText;
+
+  /// Has the user verified the OCR result?
+  final bool isVerified;
+
+  /// manual | camera | gallery | ocr | import
+  final String source;
   final DateTime createdAt;
   final DateTime? updatedAt;
   const Receipt({
@@ -2394,6 +2447,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     required this.imagePath,
     this.notes,
     this.ocrText,
+    required this.isVerified,
+    required this.source,
     required this.createdAt,
     this.updatedAt,
   });
@@ -2416,6 +2471,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     if (!nullToAbsent || ocrText != null) {
       map['ocr_text'] = Variable<String>(ocrText);
     }
+    map['is_verified'] = Variable<bool>(isVerified);
+    map['source'] = Variable<String>(source);
     map['created_at'] = Variable<DateTime>(createdAt);
     if (!nullToAbsent || updatedAt != null) {
       map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -2441,6 +2498,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
       ocrText: ocrText == null && nullToAbsent
           ? const Value.absent()
           : Value(ocrText),
+      isVerified: Value(isVerified),
+      source: Value(source),
       createdAt: Value(createdAt),
       updatedAt: updatedAt == null && nullToAbsent
           ? const Value.absent()
@@ -2464,6 +2523,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
       imagePath: serializer.fromJson<String>(json['imagePath']),
       notes: serializer.fromJson<String?>(json['notes']),
       ocrText: serializer.fromJson<String?>(json['ocrText']),
+      isVerified: serializer.fromJson<bool>(json['isVerified']),
+      source: serializer.fromJson<String>(json['source']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -2482,6 +2543,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
       'imagePath': serializer.toJson<String>(imagePath),
       'notes': serializer.toJson<String?>(notes),
       'ocrText': serializer.toJson<String?>(ocrText),
+      'isVerified': serializer.toJson<bool>(isVerified),
+      'source': serializer.toJson<String>(source),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -2498,6 +2561,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     String? imagePath,
     Value<String?> notes = const Value.absent(),
     Value<String?> ocrText = const Value.absent(),
+    bool? isVerified,
+    String? source,
     DateTime? createdAt,
     Value<DateTime?> updatedAt = const Value.absent(),
   }) => Receipt(
@@ -2513,6 +2578,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     imagePath: imagePath ?? this.imagePath,
     notes: notes.present ? notes.value : this.notes,
     ocrText: ocrText.present ? ocrText.value : this.ocrText,
+    isVerified: isVerified ?? this.isVerified,
+    source: source ?? this.source,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
   );
@@ -2536,6 +2603,10 @@ class Receipt extends DataClass implements Insertable<Receipt> {
       imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
       notes: data.notes.present ? data.notes.value : this.notes,
       ocrText: data.ocrText.present ? data.ocrText.value : this.ocrText,
+      isVerified: data.isVerified.present
+          ? data.isVerified.value
+          : this.isVerified,
+      source: data.source.present ? data.source.value : this.source,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -2554,6 +2625,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
           ..write('imagePath: $imagePath, ')
           ..write('notes: $notes, ')
           ..write('ocrText: $ocrText, ')
+          ..write('isVerified: $isVerified, ')
+          ..write('source: $source, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2572,6 +2645,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
     imagePath,
     notes,
     ocrText,
+    isVerified,
+    source,
     createdAt,
     updatedAt,
   );
@@ -2589,6 +2664,8 @@ class Receipt extends DataClass implements Insertable<Receipt> {
           other.imagePath == this.imagePath &&
           other.notes == this.notes &&
           other.ocrText == this.ocrText &&
+          other.isVerified == this.isVerified &&
+          other.source == this.source &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -2604,6 +2681,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
   final Value<String> imagePath;
   final Value<String?> notes;
   final Value<String?> ocrText;
+  final Value<bool> isVerified;
+  final Value<String> source;
   final Value<DateTime> createdAt;
   final Value<DateTime?> updatedAt;
   const ReceiptsCompanion({
@@ -2617,6 +2696,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     this.imagePath = const Value.absent(),
     this.notes = const Value.absent(),
     this.ocrText = const Value.absent(),
+    this.isVerified = const Value.absent(),
+    this.source = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -2631,6 +2712,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     required String imagePath,
     this.notes = const Value.absent(),
     this.ocrText = const Value.absent(),
+    this.isVerified = const Value.absent(),
+    this.source = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : assessmentYearId = Value(assessmentYearId),
@@ -2650,6 +2733,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     Expression<String>? imagePath,
     Expression<String>? notes,
     Expression<String>? ocrText,
+    Expression<bool>? isVerified,
+    Expression<String>? source,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
   }) {
@@ -2664,6 +2749,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
       if (imagePath != null) 'image_path': imagePath,
       if (notes != null) 'notes': notes,
       if (ocrText != null) 'ocr_text': ocrText,
+      if (isVerified != null) 'is_verified': isVerified,
+      if (source != null) 'source': source,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -2680,6 +2767,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     Value<String>? imagePath,
     Value<String?>? notes,
     Value<String?>? ocrText,
+    Value<bool>? isVerified,
+    Value<String>? source,
     Value<DateTime>? createdAt,
     Value<DateTime?>? updatedAt,
   }) {
@@ -2694,6 +2783,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
       imagePath: imagePath ?? this.imagePath,
       notes: notes ?? this.notes,
       ocrText: ocrText ?? this.ocrText,
+      isVerified: isVerified ?? this.isVerified,
+      source: source ?? this.source,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -2732,6 +2823,12 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
     if (ocrText.present) {
       map['ocr_text'] = Variable<String>(ocrText.value);
     }
+    if (isVerified.present) {
+      map['is_verified'] = Variable<bool>(isVerified.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -2754,6 +2851,8 @@ class ReceiptsCompanion extends UpdateCompanion<Receipt> {
           ..write('imagePath: $imagePath, ')
           ..write('notes: $notes, ')
           ..write('ocrText: $ocrText, ')
+          ..write('isVerified: $isVerified, ')
+          ..write('source: $source, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -4426,6 +4525,8 @@ typedef $$ReceiptsTableCreateCompanionBuilder =
       required String imagePath,
       Value<String?> notes,
       Value<String?> ocrText,
+      Value<bool> isVerified,
+      Value<String> source,
       Value<DateTime> createdAt,
       Value<DateTime?> updatedAt,
     });
@@ -4441,6 +4542,8 @@ typedef $$ReceiptsTableUpdateCompanionBuilder =
       Value<String> imagePath,
       Value<String?> notes,
       Value<String?> ocrText,
+      Value<bool> isVerified,
+      Value<String> source,
       Value<DateTime> createdAt,
       Value<DateTime?> updatedAt,
     });
@@ -4531,6 +4634,16 @@ class $$ReceiptsTableFilterComposer
 
   ColumnFilters<String> get ocrText => $composableBuilder(
     column: $table.ocrText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isVerified => $composableBuilder(
+    column: $table.isVerified,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4640,6 +4753,16 @@ class $$ReceiptsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get isVerified => $composableBuilder(
+    column: $table.isVerified,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -4734,6 +4857,14 @@ class $$ReceiptsTableAnnotationComposer
   GeneratedColumn<String> get ocrText =>
       $composableBuilder(column: $table.ocrText, builder: (column) => column);
 
+  GeneratedColumn<bool> get isVerified => $composableBuilder(
+    column: $table.isVerified,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -4825,6 +4956,8 @@ class $$ReceiptsTableTableManager
                 Value<String> imagePath = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<String?> ocrText = const Value.absent(),
+                Value<bool> isVerified = const Value.absent(),
+                Value<String> source = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
               }) => ReceiptsCompanion(
@@ -4838,6 +4971,8 @@ class $$ReceiptsTableTableManager
                 imagePath: imagePath,
                 notes: notes,
                 ocrText: ocrText,
+                isVerified: isVerified,
+                source: source,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
               ),
@@ -4853,6 +4988,8 @@ class $$ReceiptsTableTableManager
                 required String imagePath,
                 Value<String?> notes = const Value.absent(),
                 Value<String?> ocrText = const Value.absent(),
+                Value<bool> isVerified = const Value.absent(),
+                Value<String> source = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
               }) => ReceiptsCompanion.insert(
@@ -4866,6 +5003,8 @@ class $$ReceiptsTableTableManager
                 imagePath: imagePath,
                 notes: notes,
                 ocrText: ocrText,
+                isVerified: isVerified,
+                source: source,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
               ),

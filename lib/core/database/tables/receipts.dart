@@ -27,8 +27,16 @@ class Receipts extends Table {
   /// Optional user notes
   TextColumn get notes => text().nullable()();
 
-  /// Raw OCR result for future processing
+  /// Raw OCR result
   TextColumn get ocrText => text().nullable()();
+
+  /// Has the user verified the OCR result?
+  BoolColumn get isVerified =>
+      boolean().withDefault(const Constant(false))();
+
+  /// manual | camera | gallery | ocr | import
+  TextColumn get source =>
+      text().withDefault(const Constant('manual'))();
 
   DateTimeColumn get createdAt =>
       dateTime().withDefault(currentDateAndTime)();
