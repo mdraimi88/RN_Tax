@@ -1,0 +1,3 @@
+class TaxReportService {
+  const TaxReportService();
+}
