@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import '../database.dart';
 import 'assessment_year_seed.dart';
 import 'tax_category_seed.dart';
+import 'tax_rule_seeder.dart';
 
 class DatabaseSeeder {
   final AppDatabase database;
@@ -12,6 +13,9 @@ class DatabaseSeeder {
   Future<void> seed() async {
     await _seedAssessmentYears();
     await _seedTaxCategories();
+
+    final taxRuleSeeder = TaxRuleSeeder(database);
+    await taxRuleSeeder.seed();
   }
 
   Future<void> _seedAssessmentYears() async {

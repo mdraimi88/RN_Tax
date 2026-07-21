@@ -39,7 +39,20 @@ class TaxRuleDao extends DatabaseAccessor<AppDatabase>
       ))
         .get();
   }
+  Future<double> getMaximumRelief(int assessmentYearId) async {
+    final rules = await (select(taxRules)
+      ..where(
+            (tbl) =>
+        tbl.assessmentYearId.equals(assessmentYearId) &
+        tbl.isActive.equals(true),
+      ))
+        .get();
 
+    return rules.fold<double>(
+      0,
+          (sum, rule) => sum + rule.maximumAmount,
+    );
+  }
   Future<int> insertRule(TaxRulesCompanion data) {
     return into(taxRules).insert(data);
   }

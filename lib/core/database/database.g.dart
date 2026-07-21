@@ -1010,6 +1010,48 @@ class $TaxRulesTable extends TaxRules with TableInfo<$TaxRulesTable, TaxRule> {
       'REFERENCES tax_categories (id)',
     ),
   );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleMsMeta = const VerificationMeta(
+    'titleMs',
+  );
+  @override
+  late final GeneratedColumn<String> titleMs = GeneratedColumn<String>(
+    'title_ms',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleEnMeta = const VerificationMeta(
+    'titleEn',
+  );
+  @override
+  late final GeneratedColumn<String> titleEn = GeneratedColumn<String>(
+    'title_en',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sortOrderMeta = const VerificationMeta(
+    'sortOrder',
+  );
+  @override
+  late final GeneratedColumn<int> sortOrder = GeneratedColumn<int>(
+    'sort_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _maximumAmountMeta = const VerificationMeta(
     'maximumAmount',
   );
@@ -1064,6 +1106,10 @@ class $TaxRulesTable extends TaxRules with TableInfo<$TaxRulesTable, TaxRule> {
     id,
     assessmentYearId,
     categoryId,
+    code,
+    titleMs,
+    titleEn,
+    sortOrder,
     maximumAmount,
     isActive,
     createdAt,
@@ -1102,6 +1148,38 @@ class $TaxRulesTable extends TaxRules with TableInfo<$TaxRulesTable, TaxRule> {
       );
     } else if (isInserting) {
       context.missing(_categoryIdMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('title_ms')) {
+      context.handle(
+        _titleMsMeta,
+        titleMs.isAcceptableOrUnknown(data['title_ms']!, _titleMsMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMsMeta);
+    }
+    if (data.containsKey('title_en')) {
+      context.handle(
+        _titleEnMeta,
+        titleEn.isAcceptableOrUnknown(data['title_en']!, _titleEnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleEnMeta);
+    }
+    if (data.containsKey('sort_order')) {
+      context.handle(
+        _sortOrderMeta,
+        sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sortOrderMeta);
     }
     if (data.containsKey('maximum_amount')) {
       context.handle(
@@ -1153,6 +1231,22 @@ class $TaxRulesTable extends TaxRules with TableInfo<$TaxRulesTable, TaxRule> {
         DriftSqlType.int,
         data['${effectivePrefix}category_id'],
       )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      titleMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_ms'],
+      )!,
+      titleEn: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_en'],
+      )!,
+      sortOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_order'],
+      )!,
       maximumAmount: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}maximum_amount'],
@@ -1182,6 +1276,20 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
   final int id;
   final int assessmentYearId;
   final int categoryId;
+
+  /// e.g. SELF, EPF, MEDICAL
+  final String code;
+
+  /// Bahasa Malaysia
+  final String titleMs;
+
+  /// English
+  final String titleEn;
+
+  /// Display order
+  final int sortOrder;
+
+  /// Maximum claim amount
   final double maximumAmount;
   final bool isActive;
   final DateTime createdAt;
@@ -1190,6 +1298,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
     required this.id,
     required this.assessmentYearId,
     required this.categoryId,
+    required this.code,
+    required this.titleMs,
+    required this.titleEn,
+    required this.sortOrder,
     required this.maximumAmount,
     required this.isActive,
     required this.createdAt,
@@ -1201,6 +1313,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
     map['id'] = Variable<int>(id);
     map['assessment_year_id'] = Variable<int>(assessmentYearId);
     map['category_id'] = Variable<int>(categoryId);
+    map['code'] = Variable<String>(code);
+    map['title_ms'] = Variable<String>(titleMs);
+    map['title_en'] = Variable<String>(titleEn);
+    map['sort_order'] = Variable<int>(sortOrder);
     map['maximum_amount'] = Variable<double>(maximumAmount);
     map['is_active'] = Variable<bool>(isActive);
     map['created_at'] = Variable<DateTime>(createdAt);
@@ -1215,6 +1331,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
       id: Value(id),
       assessmentYearId: Value(assessmentYearId),
       categoryId: Value(categoryId),
+      code: Value(code),
+      titleMs: Value(titleMs),
+      titleEn: Value(titleEn),
+      sortOrder: Value(sortOrder),
       maximumAmount: Value(maximumAmount),
       isActive: Value(isActive),
       createdAt: Value(createdAt),
@@ -1233,6 +1353,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
       id: serializer.fromJson<int>(json['id']),
       assessmentYearId: serializer.fromJson<int>(json['assessmentYearId']),
       categoryId: serializer.fromJson<int>(json['categoryId']),
+      code: serializer.fromJson<String>(json['code']),
+      titleMs: serializer.fromJson<String>(json['titleMs']),
+      titleEn: serializer.fromJson<String>(json['titleEn']),
+      sortOrder: serializer.fromJson<int>(json['sortOrder']),
       maximumAmount: serializer.fromJson<double>(json['maximumAmount']),
       isActive: serializer.fromJson<bool>(json['isActive']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -1246,6 +1370,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
       'id': serializer.toJson<int>(id),
       'assessmentYearId': serializer.toJson<int>(assessmentYearId),
       'categoryId': serializer.toJson<int>(categoryId),
+      'code': serializer.toJson<String>(code),
+      'titleMs': serializer.toJson<String>(titleMs),
+      'titleEn': serializer.toJson<String>(titleEn),
+      'sortOrder': serializer.toJson<int>(sortOrder),
       'maximumAmount': serializer.toJson<double>(maximumAmount),
       'isActive': serializer.toJson<bool>(isActive),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -1257,6 +1385,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
     int? id,
     int? assessmentYearId,
     int? categoryId,
+    String? code,
+    String? titleMs,
+    String? titleEn,
+    int? sortOrder,
     double? maximumAmount,
     bool? isActive,
     DateTime? createdAt,
@@ -1265,6 +1397,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
     id: id ?? this.id,
     assessmentYearId: assessmentYearId ?? this.assessmentYearId,
     categoryId: categoryId ?? this.categoryId,
+    code: code ?? this.code,
+    titleMs: titleMs ?? this.titleMs,
+    titleEn: titleEn ?? this.titleEn,
+    sortOrder: sortOrder ?? this.sortOrder,
     maximumAmount: maximumAmount ?? this.maximumAmount,
     isActive: isActive ?? this.isActive,
     createdAt: createdAt ?? this.createdAt,
@@ -1279,6 +1415,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
       categoryId: data.categoryId.present
           ? data.categoryId.value
           : this.categoryId,
+      code: data.code.present ? data.code.value : this.code,
+      titleMs: data.titleMs.present ? data.titleMs.value : this.titleMs,
+      titleEn: data.titleEn.present ? data.titleEn.value : this.titleEn,
+      sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
       maximumAmount: data.maximumAmount.present
           ? data.maximumAmount.value
           : this.maximumAmount,
@@ -1294,6 +1434,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
           ..write('id: $id, ')
           ..write('assessmentYearId: $assessmentYearId, ')
           ..write('categoryId: $categoryId, ')
+          ..write('code: $code, ')
+          ..write('titleMs: $titleMs, ')
+          ..write('titleEn: $titleEn, ')
+          ..write('sortOrder: $sortOrder, ')
           ..write('maximumAmount: $maximumAmount, ')
           ..write('isActive: $isActive, ')
           ..write('createdAt: $createdAt, ')
@@ -1307,6 +1451,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
     id,
     assessmentYearId,
     categoryId,
+    code,
+    titleMs,
+    titleEn,
+    sortOrder,
     maximumAmount,
     isActive,
     createdAt,
@@ -1319,6 +1467,10 @@ class TaxRule extends DataClass implements Insertable<TaxRule> {
           other.id == this.id &&
           other.assessmentYearId == this.assessmentYearId &&
           other.categoryId == this.categoryId &&
+          other.code == this.code &&
+          other.titleMs == this.titleMs &&
+          other.titleEn == this.titleEn &&
+          other.sortOrder == this.sortOrder &&
           other.maximumAmount == this.maximumAmount &&
           other.isActive == this.isActive &&
           other.createdAt == this.createdAt &&
@@ -1329,6 +1481,10 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
   final Value<int> id;
   final Value<int> assessmentYearId;
   final Value<int> categoryId;
+  final Value<String> code;
+  final Value<String> titleMs;
+  final Value<String> titleEn;
+  final Value<int> sortOrder;
   final Value<double> maximumAmount;
   final Value<bool> isActive;
   final Value<DateTime> createdAt;
@@ -1337,6 +1493,10 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
     this.id = const Value.absent(),
     this.assessmentYearId = const Value.absent(),
     this.categoryId = const Value.absent(),
+    this.code = const Value.absent(),
+    this.titleMs = const Value.absent(),
+    this.titleEn = const Value.absent(),
+    this.sortOrder = const Value.absent(),
     this.maximumAmount = const Value.absent(),
     this.isActive = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -1346,17 +1506,29 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
     this.id = const Value.absent(),
     required int assessmentYearId,
     required int categoryId,
+    required String code,
+    required String titleMs,
+    required String titleEn,
+    required int sortOrder,
     required double maximumAmount,
     this.isActive = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : assessmentYearId = Value(assessmentYearId),
        categoryId = Value(categoryId),
+       code = Value(code),
+       titleMs = Value(titleMs),
+       titleEn = Value(titleEn),
+       sortOrder = Value(sortOrder),
        maximumAmount = Value(maximumAmount);
   static Insertable<TaxRule> custom({
     Expression<int>? id,
     Expression<int>? assessmentYearId,
     Expression<int>? categoryId,
+    Expression<String>? code,
+    Expression<String>? titleMs,
+    Expression<String>? titleEn,
+    Expression<int>? sortOrder,
     Expression<double>? maximumAmount,
     Expression<bool>? isActive,
     Expression<DateTime>? createdAt,
@@ -1366,6 +1538,10 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
       if (id != null) 'id': id,
       if (assessmentYearId != null) 'assessment_year_id': assessmentYearId,
       if (categoryId != null) 'category_id': categoryId,
+      if (code != null) 'code': code,
+      if (titleMs != null) 'title_ms': titleMs,
+      if (titleEn != null) 'title_en': titleEn,
+      if (sortOrder != null) 'sort_order': sortOrder,
       if (maximumAmount != null) 'maximum_amount': maximumAmount,
       if (isActive != null) 'is_active': isActive,
       if (createdAt != null) 'created_at': createdAt,
@@ -1377,6 +1553,10 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
     Value<int>? id,
     Value<int>? assessmentYearId,
     Value<int>? categoryId,
+    Value<String>? code,
+    Value<String>? titleMs,
+    Value<String>? titleEn,
+    Value<int>? sortOrder,
     Value<double>? maximumAmount,
     Value<bool>? isActive,
     Value<DateTime>? createdAt,
@@ -1386,6 +1566,10 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
       id: id ?? this.id,
       assessmentYearId: assessmentYearId ?? this.assessmentYearId,
       categoryId: categoryId ?? this.categoryId,
+      code: code ?? this.code,
+      titleMs: titleMs ?? this.titleMs,
+      titleEn: titleEn ?? this.titleEn,
+      sortOrder: sortOrder ?? this.sortOrder,
       maximumAmount: maximumAmount ?? this.maximumAmount,
       isActive: isActive ?? this.isActive,
       createdAt: createdAt ?? this.createdAt,
@@ -1404,6 +1588,18 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
     }
     if (categoryId.present) {
       map['category_id'] = Variable<int>(categoryId.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (titleMs.present) {
+      map['title_ms'] = Variable<String>(titleMs.value);
+    }
+    if (titleEn.present) {
+      map['title_en'] = Variable<String>(titleEn.value);
+    }
+    if (sortOrder.present) {
+      map['sort_order'] = Variable<int>(sortOrder.value);
     }
     if (maximumAmount.present) {
       map['maximum_amount'] = Variable<double>(maximumAmount.value);
@@ -1426,6 +1622,10 @@ class TaxRulesCompanion extends UpdateCompanion<TaxRule> {
           ..write('id: $id, ')
           ..write('assessmentYearId: $assessmentYearId, ')
           ..write('categoryId: $categoryId, ')
+          ..write('code: $code, ')
+          ..write('titleMs: $titleMs, ')
+          ..write('titleEn: $titleEn, ')
+          ..write('sortOrder: $sortOrder, ')
           ..write('maximumAmount: $maximumAmount, ')
           ..write('isActive: $isActive, ')
           ..write('createdAt: $createdAt, ')
@@ -3790,6 +3990,10 @@ typedef $$TaxRulesTableCreateCompanionBuilder =
       Value<int> id,
       required int assessmentYearId,
       required int categoryId,
+      required String code,
+      required String titleMs,
+      required String titleEn,
+      required int sortOrder,
       required double maximumAmount,
       Value<bool> isActive,
       Value<DateTime> createdAt,
@@ -3800,6 +4004,10 @@ typedef $$TaxRulesTableUpdateCompanionBuilder =
       Value<int> id,
       Value<int> assessmentYearId,
       Value<int> categoryId,
+      Value<String> code,
+      Value<String> titleMs,
+      Value<String> titleEn,
+      Value<int> sortOrder,
       Value<double> maximumAmount,
       Value<bool> isActive,
       Value<DateTime> createdAt,
@@ -3858,6 +4066,26 @@ class $$TaxRulesTableFilterComposer
   });
   ColumnFilters<int> get id => $composableBuilder(
     column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleMs => $composableBuilder(
+    column: $table.titleMs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleEn => $composableBuilder(
+    column: $table.titleEn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3942,6 +4170,26 @@ class $$TaxRulesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleMs => $composableBuilder(
+    column: $table.titleMs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleEn => $composableBuilder(
+    column: $table.titleEn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<double> get maximumAmount => $composableBuilder(
     column: $table.maximumAmount,
     builder: (column) => ColumnOrderings(column),
@@ -4020,6 +4268,18 @@ class $$TaxRulesTableAnnotationComposer
   });
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get titleMs =>
+      $composableBuilder(column: $table.titleMs, builder: (column) => column);
+
+  GeneratedColumn<String> get titleEn =>
+      $composableBuilder(column: $table.titleEn, builder: (column) => column);
+
+  GeneratedColumn<int> get sortOrder =>
+      $composableBuilder(column: $table.sortOrder, builder: (column) => column);
 
   GeneratedColumn<double> get maximumAmount => $composableBuilder(
     column: $table.maximumAmount,
@@ -4113,6 +4373,10 @@ class $$TaxRulesTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<int> assessmentYearId = const Value.absent(),
                 Value<int> categoryId = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> titleMs = const Value.absent(),
+                Value<String> titleEn = const Value.absent(),
+                Value<int> sortOrder = const Value.absent(),
                 Value<double> maximumAmount = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -4121,6 +4385,10 @@ class $$TaxRulesTableTableManager
                 id: id,
                 assessmentYearId: assessmentYearId,
                 categoryId: categoryId,
+                code: code,
+                titleMs: titleMs,
+                titleEn: titleEn,
+                sortOrder: sortOrder,
                 maximumAmount: maximumAmount,
                 isActive: isActive,
                 createdAt: createdAt,
@@ -4131,6 +4399,10 @@ class $$TaxRulesTableTableManager
                 Value<int> id = const Value.absent(),
                 required int assessmentYearId,
                 required int categoryId,
+                required String code,
+                required String titleMs,
+                required String titleEn,
+                required int sortOrder,
                 required double maximumAmount,
                 Value<bool> isActive = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -4139,6 +4411,10 @@ class $$TaxRulesTableTableManager
                 id: id,
                 assessmentYearId: assessmentYearId,
                 categoryId: categoryId,
+                code: code,
+                titleMs: titleMs,
+                titleEn: titleEn,
+                sortOrder: sortOrder,
                 maximumAmount: maximumAmount,
                 isActive: isActive,
                 createdAt: createdAt,

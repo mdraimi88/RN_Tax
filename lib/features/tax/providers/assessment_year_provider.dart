@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'assessment_year_repository_provider.dart';
+import '../../../core/database/database.dart';
+import '../../../core/providers/repository_provider.dart';
 
-final activeAssessmentYearProvider = FutureProvider((ref) async {
+final activeAssessmentYearProvider =
+FutureProvider<AssessmentYear?>((ref) async {
   final repository = ref.watch(assessmentYearRepositoryProvider);
 
-  return repository.getActiveYear();
+  return repository.getActive();
 });
